@@ -54,6 +54,21 @@ describe('is', () => {
     });
   });
 
+  describe('number', () => {
+    it('should return the expected value', () => {
+      expect(is.number(5)).toBe(true);
+      expect(is.number(1.2)).toBe(true);
+
+      expect(is.number()).toBe(false);
+      expect(is.number(undefined)).toBe(false);
+      expect(is.number(null)).toBe(false);
+      expect(is.number('')).toBe(false);
+      expect(is.number(() => {})).toBe(false);
+      expect(is.number({})).toBe(false);
+      expect(is.number([])).toBe(false);
+    });
+  });
+
   describe('function', () => {
     it('should return the expected value', () => {
       expect(is.function(function() {})).toBe(true); //eslint-disable-line prefer-arrow-callback, func-names
@@ -69,18 +84,18 @@ describe('is', () => {
     });
   });
 
-  describe('bool', () => {
+  describe('boolean', () => {
     it('should return the expected value', () => {
-      expect(is.bool(true)).toBe(true);
-      expect(is.bool(false)).toBe(true);
+      expect(is.boolean(true)).toBe(true);
+      expect(is.boolean(false)).toBe(true);
 
-      expect(is.bool()).toBe(false);
-      expect(is.bool(null)).toBe(false);
-      expect(is.bool(undefined)).toBe(false);
-      expect(is.bool('')).toBe(false);
-      expect(is.bool(() => {})).toBe(false);
-      expect(is.bool({})).toBe(false);
-      expect(is.bool([])).toBe(false);
+      expect(is.boolean()).toBe(false);
+      expect(is.boolean(null)).toBe(false);
+      expect(is.boolean(undefined)).toBe(false);
+      expect(is.boolean('')).toBe(false);
+      expect(is.boolean(() => {})).toBe(false);
+      expect(is.boolean({})).toBe(false);
+      expect(is.boolean([])).toBe(false);
     });
   });
 
@@ -95,20 +110,6 @@ describe('is', () => {
       expect(is.array('')).toBe(false);
       expect(is.array(() => {})).toBe(false);
       expect(is.array({})).toBe(false);
-    });
-  });
-
-  describe('iterable', () => {
-    it('should return the expected value', () => {
-      expect(is.iterable([])).toBe(true);
-      expect(is.iterable(Array(4))).toBe(true);
-      expect(is.iterable('')).toBe(true);
-
-      expect(is.iterable()).toBe(false);
-      expect(is.iterable(null)).toBe(false);
-      expect(is.iterable(undefined)).toBe(false);
-      expect(is.iterable(() => {})).toBe(false);
-      expect(is.iterable({})).toBe(false);
     });
   });
 
@@ -135,6 +136,89 @@ describe('is', () => {
       expect(is.plainObject('')).toBe(false);
       expect(is.plainObject(() => {})).toBe(false);
       expect(is.plainObject([])).toBe(false);
+    });
+  });
+
+  describe('date', () => {
+    it('should return the expected value', () => {
+      expect(is.date(new Date())).toBe(true);
+
+      expect(is.date()).toBe(false);
+      expect(is.date(null)).toBe(false);
+      expect(is.date(undefined)).toBe(false);
+      expect(is.date('')).toBe(false);
+      expect(is.date(() => {})).toBe(false);
+      expect(is.date([])).toBe(false);
+      expect(is.date({})).toBe(false);
+    });
+  });
+
+  describe('promise', () => {
+    it('should return the expected value', () => {
+      expect(is.promise(new Promise(() => {}))).toBe(true);
+
+      expect(is.promise()).toBe(false);
+      expect(is.promise(null)).toBe(false);
+      expect(is.promise(undefined)).toBe(false);
+      expect(is.promise('')).toBe(false);
+      expect(is.promise(() => {})).toBe(false);
+      expect(is.promise([])).toBe(false);
+      expect(is.promise({})).toBe(false);
+    });
+  });
+
+  describe('iterable', () => {
+    it('should return the expected value', () => {
+      expect(is.iterable([])).toBe(true);
+      expect(is.iterable(Array(4))).toBe(true);
+      expect(is.iterable('')).toBe(true);
+
+      expect(is.iterable()).toBe(false);
+      expect(is.iterable(null)).toBe(false);
+      expect(is.iterable(undefined)).toBe(false);
+      expect(is.iterable(() => {})).toBe(false);
+      expect(is.iterable({})).toBe(false);
+    });
+  });
+
+  describe('generator', () => {
+    it('should return the expected value', () => {
+      const gen = function* () { yield false; return true; }; //eslint-disable-line func-names
+
+      expect(is.generator(gen())).toBe(true);
+
+      expect(is.generator()).toBe(false);
+      expect(is.generator(null)).toBe(false);
+      expect(is.generator(undefined)).toBe(false);
+      expect(is.generator('')).toBe(false);
+      expect(is.generator(() => {})).toBe(false);
+      expect(is.generator({})).toBe(false);
+    });
+  });
+
+  describe('regexp', () => {
+    it('should return the expected value', () => {
+      expect(is.regexp(new RegExp('[a-z]'))).toBe(true);
+
+      expect(is.regexp()).toBe(false);
+      expect(is.regexp(null)).toBe(false);
+      expect(is.regexp(undefined)).toBe(false);
+      expect(is.regexp('')).toBe(false);
+      expect(is.regexp(() => {})).toBe(false);
+      expect(is.regexp({})).toBe(false);
+    });
+  });
+
+  describe('symbol', () => {
+    it('should return the expected value', () => {
+      expect(is.symbol((Symbol('test')))).toBe(true);
+
+      expect(is.symbol()).toBe(false);
+      expect(is.symbol(null)).toBe(false);
+      expect(is.symbol(undefined)).toBe(false);
+      expect(is.symbol('')).toBe(false);
+      expect(is.symbol(() => {})).toBe(false);
+      expect(is.symbol({})).toBe(false);
     });
   });
 
