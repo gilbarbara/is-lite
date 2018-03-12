@@ -27,24 +27,36 @@ is.object(value) -> false;
 
 ### API
 
-**is.null(value: any)**
+**is.null**
 
-**is.undefined(value: any)**
+**is.undefined**
 
-**is.nullOrUndefined(value: any)**
+**is.nullOrUndefined**
 
-**is.string(value: any)**
+**is.string**
 
-**is.function(value: any)**
+**is.number**
 
-**is.bool(value: any)**
+**is.function**
 
-**is.array(value: any)**
+**is.boolean**
 
-**is.iterable(value: any)**
+**is.array**
 
-**is.object(value: any)** (objects, functions and arrays)
+**is.object** (objects, functions and arrays)
 
-**is.plainObject(value: any)** (just objects)
+**is.plainObject** (just objects)
 
-**is.domElement(value: any)**
+**is.date**
+
+**is.promise**
+
+**is.iterable**
+
+**is.generator**
+
+**is.regexp**
+
+**is.symbol**
+
+**is.domElement**
