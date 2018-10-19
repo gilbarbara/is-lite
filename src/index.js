@@ -1,3 +1,4 @@
+// @flow
 const getObjectType = (value: any): string => Object.prototype.toString.call(value).slice(8, -1);
 
 const isObject = (value: any) => typeof value === 'object';
@@ -60,7 +61,10 @@ export default {
       'nodeValue'
     ];
 
-    return this.object(value) && value.nodeType === 1 && this.string(value.nodeName) &&
-      !this.plainObject(value) && DOM_PROPERTIES_TO_CHECK.every(property => property in value);
+    return this.object(value)
+    && !this.plainObject(value)
+    && value.nodeType === 1
+    && this.string(value.nodeName)
+    && DOM_PROPERTIES_TO_CHECK.every(property => property in value);
   },
 };
