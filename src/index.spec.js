@@ -33,7 +33,6 @@ describe('is', () => {
       expect(is.nullOrUndefined(undefined)).toBe(true);
       expect(is.nullOrUndefined()).toBe(true);
 
-
       expect(is.nullOrUndefined('')).toBe(false);
       expect(is.nullOrUndefined(() => {})).toBe(false);
       expect(is.nullOrUndefined({})).toBe(false);
@@ -183,7 +182,11 @@ describe('is', () => {
 
   describe('generator', () => {
     it('should return the expected value', () => {
-      const gen = function* () { yield false; return true; }; //eslint-disable-line func-names
+      // eslint-disable-next-line func-names
+      const gen = function*() {
+        yield false;
+        return true;
+      };
 
       expect(is.generator(gen())).toBe(true);
 
@@ -211,7 +214,7 @@ describe('is', () => {
 
   describe('symbol', () => {
     it('should return the expected value', () => {
-      expect(is.symbol((Symbol('test')))).toBe(true);
+      expect(is.symbol(Symbol('test'))).toBe(true);
 
       expect(is.symbol()).toBe(false);
       expect(is.symbol(null)).toBe(false);

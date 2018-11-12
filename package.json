@@ -61,6 +61,7 @@
     "flow-bin": "^0.86.0",
     "husky": "^1.1.3",
     "jest": "^23.6.0",
+    "prettier": "^1.15.2",
     "rimraf": "^2.6.2",
     "rollup": "^0.67.1",
     "rollup-plugin-babel": "^4.0.3",
@@ -75,11 +76,21 @@
     "watch": "rollup -cw",
     "clean": "rimraf es && rimraf lib",
     "lint": "eslint src",
+    "prettier": "prettier \"src/**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|graphql|mdx)\"",
+    "format": "npm run prettier -- --write",
+    "validate": "npm run lint && npm run prettier -- --list-different",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "bundlesize": "bundlesize",
-    "precommit": "npm run lint && npm test && bundlesize",
+    "precommit": "npm run lint && npm run format && npm test && npm run build && bundlesize",
     "prepublishOnly": "npm run build"
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "printWidth": 80,
+    "proseWrap": "never"
   },
   "bundlesize": [
     {
