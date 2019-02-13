@@ -1,8 +1,7 @@
-// @flow
-const getObjectType = (value: any): string =>
-  Object.prototype.toString.call(value).slice(8, -1);
-
 const isObject = (value: any) => typeof value === 'object';
+
+export const getObjectType = (value: any): string =>
+  Object.prototype.toString.call(value).slice(8, -1);
 
 export default {
   null(value: any): boolean {
@@ -39,7 +38,7 @@ export default {
       getObjectType(value) === 'Object' &&
       ((prototype = Object.getPrototypeOf(value)),
       prototype === null || prototype === Object.getPrototypeOf({}))
-    ); //eslint-disable-line no-return-assign
+    );
   },
   date(value: any): boolean {
     return getObjectType(value) === 'Date';

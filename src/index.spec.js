@@ -1,4 +1,4 @@
-import is from './index';
+import is from './index'; // eslint-disable-line import/no-unresolved
 
 describe('is', () => {
   describe('null', () => {
