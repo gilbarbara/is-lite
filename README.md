@@ -24,36 +24,52 @@ is.object(value) // false;
 
 ### API
 
-**is.null**
-
-**is.undefined**
-
-**is.nullOrUndefined**
-
-**is.string**
-
-**is.number**
-
-**is.function**
+**is.array**
 
 **is.boolean**
 
-**is.array**
-
-**is.object** (objects, functions and arrays)
-
-**is.plainObject** (just objects)
-
 **is.date**
 
-**is.promise**
+**is.domElement**
 
-**is.iterable**
+**is.function**
 
 **is.generator**
 
+**is.iterable**
+
+**is.map**
+
+**is.nan**
+
+**is.null**
+
+**is.nullOrUndefined**
+
+**is.number**
+
+**is.numericString**
+Returns true for a string that represents a number. For example, '42' and '-8'.
+Note: 'NaN' returns false, but 'Infinity' and '-Infinity' return true
+
+**is.object** 
+Functions and arrays are objects too.
+
+**is.plainObject** 
+Just objects
+
+**is.promise**
+
 **is.regexp**
+
+**is.set**
+
+**is.string**
 
 **is.symbol**
 
-**is.domElement**
+**is.undefined**
+
+**is.weakMap**
+
+**is.weakSet**
