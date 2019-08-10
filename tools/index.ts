@@ -1,15 +1,15 @@
-/* eslint-disable no-var, vars-on-top, no-console */
-const { promisify } = require('util');
-const { exec } = require('child_process');
-const chalk = require('chalk');
-const yargs = require('yargs');
+/* tslint:disable:no-console */
+import { promisify } from 'util';
+import { exec } from 'child_process';
+import chalk from 'chalk';
+import * as yargs from 'yargs';
 
 const run = promisify(exec);
 
 module.exports = yargs
   .command({
     command: 'has-commits',
-    desc: 'has new remote commits',
+    describe: 'has new remote commits',
     handler: () => {
       run('git rev-parse --is-inside-work-tree')
         .then(() =>
@@ -60,13 +60,13 @@ module.exports = yargs
   })
   .command({
     command: 'update',
-    desc: 'run `npm update` if package.json has changed',
+    describe: 'run `npm install` if package.json has changed',
     handler: () =>
       run('git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD')
         .then(({ stdout }) => {
           if (stdout.match('package.json')) {
             console.log(chalk.yellow('▼ Updating...'));
-            exec('npm update').stdout.pipe(process.stdout);
+            exec('npm install').stdout!.pipe(process.stdout);
           } else {
             console.log(chalk.green('✔ Nothing to update'));
           }
@@ -79,14 +79,4 @@ module.exports = yargs
   .help()
   .wrap(72)
   .version(false)
-  .strict()
-  .fail((msg, err, instance) => {
-    if (err) {
-      throw new Error(err);
-    }
-
-    console.error(`${chalk.red(msg)}
-    `);
-    console.log(instance.help());
-    process.exit(1);
-  }).argv;
+  .strict().argv;
