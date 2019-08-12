@@ -1,7 +1,6 @@
 {
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rules": {
-    "interface-name": [true, "never-prefix"],
     "ordered-imports": false,
     "quotemark": false
   }
