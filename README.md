@@ -2,74 +2,113 @@
 
 [![NPM version](https://badge.fury.io/js/is-lite.svg)](https://www.npmjs.com/package/is-lite) [![build status](https://travis-ci.org/gilbarbara/is-lite.svg)](https://travis-ci.org/gilbarbara/is-lite) [![Maintainability](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/maintainability)](https://codeclimate.com/github/gilbarbara/is-lite/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/test_coverage)](https://codeclimate.com/github/gilbarbara/is-lite/test_coverage)
 
+Type check tool (just 0.6k minified+gzipped)
 
-A tiny javascript type testing tool!
-
-### Setup
+## Setup
 
 ```bash
 npm install is-lite
 ```
 
-### Usage
+## Usage
 
 ```js
 import is from 'is-lite';
 
 const value = '';
 
-is.object(value) // false;
+is.string(value) // true;
 
 ```
 
-### API
+## API
 
-**is.array**
+#### is(value)
 
-**is.boolean**
+Returns the type of the `value`.
 
-**is.date**
+Primitives are lowercase: `bigint`, `boolean`, `null`, `number`, `string`, `symbol`, `undefined`  
+The rest are camelcase: `Array`, `Function`, `GeneratorFunction`, `Object`, ...
 
-**is.domElement**
+####is.array(value)
 
-**is.function**
+####is.asyncFunction(value)
 
-**is.generator**
+Check if `value` is an `async` function that can be called with `await`
 
-**is.iterable**
+```
+is.asyncFunction(async () => {}); // => true
+is.asyncFunction(() => {}); // => false
+```
 
-**is.map**
+####is.boolean(value)
 
-**is.nan**
+####is.date(value)
 
-**is.null**
+####is.domElement(value)  
+Check if `value` is a DOM Element.
 
-**is.nullOrUndefined**
+####is.error(value)
 
-**is.number**
+####is.function(value)
 
-**is.numericString**
-Returns true for a string that represents a number. For example, '42' and '-8'.
+####is.generator(value)  
+Check for an object that has its own .next() and .throw() methods and has a function definition for `Symbol.iterator`
+
+####is.generatorFunction(value)
+
+####is.instanceOf(value, class)
+Check if `value` is a direct instance of `class`
+
+```js
+class APIError extends Error {}
+
+const error = new APIError('Fail');
+
+is.instanceOf(error, APIError); // true 
+is.instanceOf(error, Error); // false 
+```
+
+####is.iterable(value)
+
+####is.map(value)
+
+####is.nan(value)
+
+####is.null(value)
+
+####is.nullOrUndefined(value)
+
+####is.number(value)  
+Note: `is.number(NaN)` returns `false`
+
+####is.numericString(value)
+Check for a string that represents a number. For example, '42' and '-8'.
 Note: 'NaN' returns false, but 'Infinity' and '-Infinity' return true
 
-**is.object** 
-Functions and arrays are objects too.
+####is.object(value) 
+Remember that functions and arrays are objects too.
 
-**is.plainObject** 
-Just objects
+####is.plainObject(value) 
+Check if the object is created by either `{}`, `new Object()`, or `Object.create(null)`.
 
-**is.promise**
+####is.promise(value)
 
-**is.regexp**
+####is.regexp(value)
 
-**is.set**
+####is.set(value)
 
-**is.string**
+####is.string(value)
 
-**is.symbol**
+####is.symbol(value)
 
-**is.undefined**
+####is.undefined(value)
 
-**is.weakMap**
+####is.weakMap(value)
 
-**is.weakSet**
+####is.weakSet(value)
+
+## FAQ
+
+[@sindresorhus/is](https://github.com/sindresorhus/is) is amazing but I needed something even smaller (and simpler).
+This package cover the basics and is only 0.6k minified+gzipped.
