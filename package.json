@@ -23,23 +23,23 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^2.0.2",
+    "@gilbarbara/tsconfig": "^0.1.0",
+    "@size-limit/preset-small-lib": "^2.1.0",
     "@types/jest": "^24.0.17",
-    "@types/node": "^12.7.1",
+    "@types/node": "^12.7.2",
     "@types/yargs": "^13.0.2",
-    "chalk": "^2.4.2",
     "cross-env": "^5.2.0",
-    "husky": "^3.0.3",
-    "jest": "^24.8.0",
+    "husky": "^3.0.4",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2",
-    "rimraf": "^2.6.3",
-    "size-limit": "^2.0.2",
+    "repo-tools": "^0.2.0",
+    "rimraf": "^3.0.0",
+    "size-limit": "^2.1.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3",
-    "yargs": "^13.3.0"
+    "typescript": "^3.5.3"
   },
   "scripts": {
     "build": "npm run clean && npm run build:ts",
@@ -47,10 +47,11 @@
     "watch": "npm run build:ts -- -w",
     "clean": "rimraf lib",
     "lint": "tslint 'src/**/*.ts' 'tools/**/*.ts'",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
-    "validate": "npm run lint && npm run test && npm run build && npm run size",
+    "validate": "npm run lint && npm run test:coverage && npm run build && npm run size",
     "size": "size-limit",
     "prepublishOnly": "npm run validate"
   },
@@ -102,8 +103,8 @@
   ],
   "husky": {
     "hooks": {
-      "post-merge": "ts-node tools update",
-      "pre-commit": "ts-node tools has-commits && npm run validate"
+      "pre-commit": "repo-tools check-remote && npm run validate",
+      "post-merge": "repo-tools install-packages"
     }
   }
 }
