@@ -30,9 +30,9 @@ Returns the type of the `value`.
 Primitives are lowercase: `bigint`, `boolean`, `null`, `number`, `string`, `symbol`, `undefined`  
 The rest are camelcase: `Array`, `Function`, `GeneratorFunction`, `Object`, ...
 
-####is.array(value)
+#### is.array(value)
 
-####is.asyncFunction(value)
+#### is.asyncFunction(value)
 
 Check if `value` is an `async` function that can be called with `await`
 
@@ -41,23 +41,23 @@ is.asyncFunction(async () => {}); // => true
 is.asyncFunction(() => {}); // => false
 ```
 
-####is.boolean(value)
+#### is.boolean(value)
 
-####is.date(value)
+#### is.date(value)
 
-####is.domElement(value)  
+#### is.domElement(value)  
 Check if `value` is a DOM Element.
 
-####is.error(value)
+#### is.error(value)
 
-####is.function(value)
+#### is.function(value)
 
-####is.generator(value)  
+#### is.generator(value)  
 Check for an object that has its own .next() and .throw() methods and has a function definition for `Symbol.iterator`
 
-####is.generatorFunction(value)
+#### is.generatorFunction(value)
 
-####is.instanceOf(value, class)
+#### is.instanceOf(value, class)
 Check if `value` is a direct instance of `class`
 
 ```js
@@ -69,44 +69,44 @@ is.instanceOf(error, APIError); // true
 is.instanceOf(error, Error); // false 
 ```
 
-####is.iterable(value)
+#### is.iterable(value)
 
-####is.map(value)
+#### is.map(value)
 
-####is.nan(value)
+#### is.nan(value)
 
-####is.null(value)
+#### is.null(value)
 
-####is.nullOrUndefined(value)
+#### is.nullOrUndefined(value)
 
-####is.number(value)  
+#### is.number(value)  
 Note: `is.number(NaN)` returns `false`
 
-####is.numericString(value)
+#### is.numericString(value)
 Check for a string that represents a number. For example, '42' and '-8'.
 Note: 'NaN' returns false, but 'Infinity' and '-Infinity' return true
 
-####is.object(value) 
+#### is.object(value) 
 Remember that functions and arrays are objects too.
 
-####is.plainObject(value) 
+#### is.plainObject(value) 
 Check if the object is created by either `{}`, `new Object()`, or `Object.create(null)`.
 
-####is.promise(value)
+#### is.promise(value)
 
-####is.regexp(value)
+#### is.regexp(value)
 
-####is.set(value)
+#### is.set(value)
 
-####is.string(value)
+#### is.string(value)
 
-####is.symbol(value)
+#### is.symbol(value)
 
-####is.undefined(value)
+#### is.undefined(value)
 
-####is.weakMap(value)
+#### is.weakMap(value)
 
-####is.weakSet(value)
+#### is.weakSet(value)
 
 ## FAQ
 
