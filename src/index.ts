@@ -1,5 +1,9 @@
 type Class<T = unknown> = new (...args: any[]) => T;
 
+interface IPlainObject {
+  [key: string]: unknown;
+}
+
 const enum Types {
   array = 'Array',
   asyncFunction = 'AsyncFunction',
@@ -77,6 +81,14 @@ const is = (value: unknown): Types => {
 
 is.array = Array.isArray;
 
+is.arrayOf = (target: unknown[], predicate: (v: unknown) => boolean): boolean => {
+  if (!is.array(target) && !is.function(predicate)) {
+    return false;
+  }
+
+  return target.every(d => predicate(d));
+};
+
 // tslint:disable-next-line:ban-types
 is.asyncFunction = isObjectOfType<Function>(Types.asyncFunction);
 
@@ -85,6 +97,8 @@ is.boolean = (value: unknown): value is boolean => {
 };
 
 is.date = isObjectOfType<Date>(Types.date);
+
+is.defined = (value: unknown): boolean => !is.undefined(value);
 
 is.domElement = (value: unknown): value is Element => {
   const DOM_PROPERTIES_TO_CHECK = [
@@ -101,6 +115,16 @@ is.domElement = (value: unknown): value is Element => {
     (value as Element).nodeType === 1 &&
     is.string((value as Element).nodeName) &&
     DOM_PROPERTIES_TO_CHECK.every(property => property in (value as Element))
+  );
+};
+
+is.empty = (value: unknown): boolean => {
+  return (
+    (is.string(value) && value.length === 0) ||
+    (is.array(value) && value.length === 0) ||
+    (is.object(value) && !is.map(value) && !is.set(value) && Object.keys(value).length === 0) ||
+    (is.set(value) && value.size === 0) ||
+    (is.map(value) && value.size === 0)
   );
 };
 
@@ -160,7 +184,15 @@ is.object = (value: unknown): value is object => {
   return !is.nullOrUndefined(value) && (is.function(value) || typeof value === 'object');
 };
 
-is.plainObject = (value: unknown): value is { [key: string]: unknown } => {
+is.oneOf = (target: unknown[], value: any): boolean => {
+  if (!is.array(target)) {
+    return false;
+  }
+
+  return target.indexOf(value) > -1;
+};
+
+is.plainObject = (value: unknown): value is IPlainObject => {
   if (getObjectType(value) !== 'Object') {
     return false;
   }
@@ -171,6 +203,21 @@ is.plainObject = (value: unknown): value is { [key: string]: unknown } => {
 };
 
 is.promise = isObjectOfType<Promise<unknown>>(Types.promise);
+
+is.propertyOf = (target: object, key: string, predicate?: (v: unknown) => boolean): boolean => {
+  if (!is.object(target) || !key) {
+    return false;
+  }
+
+  // @ts-ignore
+  const value = target[key];
+
+  if (is.function(predicate)) {
+    return predicate(value);
+  }
+
+  return is.defined(value);
+};
 
 is.regexp = isObjectOfType<RegExp>(Types.regExp);
 
