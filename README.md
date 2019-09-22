@@ -1,8 +1,10 @@
 # is-lite
 
-[![NPM version](https://badge.fury.io/js/is-lite.svg)](https://www.npmjs.com/package/is-lite) [![build status](https://travis-ci.org/gilbarbara/is-lite.svg)](https://travis-ci.org/gilbarbara/is-lite) [![Maintainability](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/maintainability)](https://codeclimate.com/github/gilbarbara/is-lite/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/test_coverage)](https://codeclimate.com/github/gilbarbara/is-lite/test_coverage)
+[![NPM version](https://badge.fury.io/js/is-lite.svg)](https://www.npmjs.com/package/is-lite) [![build status](https://travis-ci.org/gilbarbara/is-lite.svg)](https://travis-ci.org/gilbarbara/is-lite) [![is-lite](https://badgen.net/bundlephobia/minzip/is-lite?label=size)](https://bundlephobia.com/result?p=is-lite) [![Maintainability](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/maintainability)](https://codeclimate.com/github/gilbarbara/is-lite/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/test_coverage)](https://codeclimate.com/github/gilbarbara/is-lite/test_coverage)
 
-Type check tool (just 0.6k minified+gzipped)
+> Lightweight type check tool.
+
+Typescript ready with [type guards](http://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types) to infer the correct type inside conditionals.
 
 ## Setup
 
@@ -15,49 +17,67 @@ npm install is-lite
 ```js
 import is from 'is-lite';
 
-const value = '';
-
-is.string(value) // true;
-
+is('value'); // string
+is.string('value'); // true
 ```
 
 ## API
 
-#### is(value)
-
+**is(value)**  
 Returns the type of the `value`.
 
 Primitives are lowercase: `bigint`, `boolean`, `null`, `number`, `string`, `symbol`, `undefined`  
 The rest are camelcase: `Array`, `Function`, `GeneratorFunction`, `Object`, ...
 
-#### is.array(value)
+**is.array(value)**  
 
-#### is.asyncFunction(value)
+**is.arrayOf(target: any[], predicate: (value: unknown) => boolean)**  
+Check if all items in an array are of same type.
 
+```js
+is.arrayOf(['a', 'b'], is.string); // true
+is.arrayOf([123, 456], is.nnumber); // true
+
+is.arrayOf(['a', 1], is.string); // false
+```
+
+**is.asyncFunction(value)**  
 Check if `value` is an `async` function that can be called with `await`
 
+```js
+is.asyncFunction(async () => {}); // true
+is.asyncFunction(() => {}); // false
 ```
-is.asyncFunction(async () => {}); // => true
-is.asyncFunction(() => {}); // => false
-```
 
-#### is.boolean(value)
+**is.boolean(value)**  
 
-#### is.date(value)
+**is.date(value)**  
 
-#### is.domElement(value)  
+**is.defined(value)**  
+Check if `value` is anything but `undefined`.
+
+**is.domElement(value)  **  
 Check if `value` is a DOM Element.
 
-#### is.error(value)
+**is.empty(value)**  
+Returns `true` if:
 
-#### is.function(value)
+- the value is a `string` and `length` is 0
+- the value is an `Object` and `Object.keys(value).length` is 0
+- the value is an `Array` and `length` is 0
+- the value is a `Map` and `size` is 0
+- the value is a `Set` and `size` is 0
 
-#### is.generator(value)  
+**is.error(value)**  
+
+**is.function(value)**  
+
+**is.generator(value)  **  
 Check for an object that has its own .next() and .throw() methods and has a function definition for `Symbol.iterator`
 
-#### is.generatorFunction(value)
+**is.generatorFunction(value)**  
 
-#### is.instanceOf(value, class)
+**is.instanceOf(value, class)**  
 Check if `value` is a direct instance of `class`
 
 ```js
@@ -69,46 +89,90 @@ is.instanceOf(error, APIError); // true
 is.instanceOf(error, Error); // false 
 ```
 
-#### is.iterable(value)
+**is.iterable(value)**  
 
-#### is.map(value)
+**is.map(value)**  
 
-#### is.nan(value)
+**is.nan(value)**  
 
-#### is.null(value)
+**is.null(value)**  
 
-#### is.nullOrUndefined(value)
+**is.nullOrUndefined(value)**  
 
-#### is.number(value)  
+**is.number(value)  **  
 Note: `is.number(NaN)` returns `false`
 
-#### is.numericString(value)
-Check for a string that represents a number. For example, '42' and '-8'.
-Note: 'NaN' returns false, but 'Infinity' and '-Infinity' return true
+**is.numericString(value)**  
+Check for a string that represents a number.
 
-#### is.object(value) 
+```js
+is.numericString('42'); // true
+is.numericString('-5'); // true
+is.numericString('Inifinity'); // true
+is.numericString('NaN'); // true
+```
+
+**is.object(value) **  
 Remember that functions and arrays are objects too.
 
-#### is.plainObject(value) 
-Check if the object is created by either `{}`, `new Object()`, or `Object.create(null)`.
+**is.oneOf(target: any[], value: any)**  
+Check if `value` exists is the `target`
 
-#### is.promise(value)
+```js
+const colors = ['red', 'green', 'blue'];
 
-#### is.regexp(value)
+is.oneOf(colors, 'green'); // true
+is.oneOf(colors, 'brown'); // false
+```
 
-#### is.set(value)
+**is.plainObject(value) **  
+Check if the object is created by either `{}`, `new Object()` or `Object.create(null)`.
 
-#### is.string(value)
+**is.promise(value)**  
 
-#### is.symbol(value)
+**is.propertyOf(target: object, key: string, predicate?: (value: unknown) => boolean)**  
+Check if `key` exists of `target`. if you pass a `predicate` function, it will check the value's type.
 
-#### is.undefined(value)
+```js
+const map = { items: [1], isLogged: false, retries: 0 };
 
-#### is.weakMap(value)
+is.propertyOf(map, 'retries'); // true
+is.propertyOf(map, 'auth'); // false
 
-#### is.weakSet(value)
+is.propertyOf(map, 'retries', is.number); // true
+is.propertyOf(map, 'items', is.array); // true
+is.propertyOf(map, 'isLogged', is.string); // false
+```
+
+**is.regexp(value)**  
+
+**is.set(value)**  
+
+**is.string(value)**  
+
+**is.symbol(value)**  
+
+**is.undefined(value)**  
+
+**is.weakMap(value)**  
+
+**is.weakSet(value)**  
+
+##  Contributing
+
+Contributions, issues and feature requests are welcome!  
+Feel free to check [issues page](https://github.com/gilbarbara/is-lite/issues).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+##  License
+
+Copyright © 2019 [Gil Barbara <gilbarbara@gmail.com>](https://github.com/gilbarbara).  
+This project is [MIT](https://github.com/gilbarbara/is-lite/blob/master/LICENSE) licensed.
 
 ## FAQ
 
 [@sindresorhus/is](https://github.com/sindresorhus/is) is amazing but I needed something even smaller (and simpler).
-This package cover the basics and is only 0.6k minified+gzipped.
+This package cover the basics and is less than 1k minified+gzipped.
