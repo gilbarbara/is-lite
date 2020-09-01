@@ -29,7 +29,7 @@ Returns the type of the `value`.
 Primitives are lowercase: `bigint`, `boolean`, `null`, `number`, `string`, `symbol`, `undefined`  
 The rest are camelcase: `Array`, `Function`, `GeneratorFunction`, `Object`, ...
 
-**is.array(value)**  
+**is.array(value)**
 
 **is.arrayOf(target: any[], predicate: (value: unknown) => boolean)**  
 Check if all items in an array are of same type.
@@ -49,14 +49,14 @@ is.asyncFunction(async () => {}); // true
 is.asyncFunction(() => {}); // false
 ```
 
-**is.boolean(value)**  
+**is.boolean(value)**
 
-**is.date(value)**  
+**is.date(value)**
 
 **is.defined(value)**  
 Check if `value` is anything but `undefined`.
 
-**is.domElement(value)  **  
+**is.domElement(value) **  
 Check if `value` is a DOM Element.
 
 **is.empty(value)**  
@@ -68,14 +68,14 @@ Returns `true` if:
 - the value is a `Map` and `size` is 0
 - the value is a `Set` and `size` is 0
 
-**is.error(value)**  
+**is.error(value)**
 
-**is.function(value)**  
+**is.function(value)**
 
 **is.generator(value)  **  
 Check for an object that has its own .next() and .throw() methods and has a function definition for `Symbol.iterator`
 
-**is.generatorFunction(value)**  
+**is.generatorFunction(value)**
 
 **is.instanceOf(value, class)**  
 Check if `value` is a direct instance of `class`
@@ -89,17 +89,17 @@ is.instanceOf(error, APIError); // true
 is.instanceOf(error, Error); // false 
 ```
 
-**is.iterable(value)**  
+**is.iterable(value)**
 
-**is.map(value)**  
+**is.map(value)**
 
-**is.nan(value)**  
+**is.nan(value)**
 
-**is.null(value)**  
+**is.null(value)**
 
-**is.nullOrUndefined(value)**  
+**is.nullOrUndefined(value)**
 
-**is.number(value)  **  
+**is.number(value)**  
 Note: `is.number(NaN)` returns `false`
 
 **is.numericString(value)**  
@@ -115,7 +115,7 @@ is.numericString('NaN'); // true
 **is.plainFunction(value)**  
 Check if `value` is a function (doesn't include async and generator functions)
 
-**is.object(value) **  
+**is.object(value)**  
 Remember that functions and arrays are objects too.
 
 **is.oneOf(target: any[], value: any)**  
@@ -128,10 +128,10 @@ is.oneOf(colors, 'green'); // true
 is.oneOf(colors, 'brown'); // false
 ```
 
-**is.plainObject(value) **  
+**is.plainObject(value)**  
 Check if the object is created by either `{}`, `new Object()` or `Object.create(null)`.
 
-**is.promise(value)**  
+**is.promise(value)**
 
 **is.propertyOf(target: object, key: string, predicate?: (value: unknown) => boolean)**  
 Check if `key` exists of `target`. if you pass a `predicate` function, it will check the value's type.
@@ -147,19 +147,19 @@ is.propertyOf(map, 'items', is.array); // true
 is.propertyOf(map, 'isLogged', is.string); // false
 ```
 
-**is.regexp(value)**  
+**is.regexp(value)**
 
-**is.set(value)**  
+**is.set(value)**
 
-**is.string(value)**  
+**is.string(value)**
 
-**is.symbol(value)**  
+**is.symbol(value)**
 
-**is.undefined(value)**  
+**is.undefined(value)**
 
-**is.weakMap(value)**  
+**is.weakMap(value)**
 
-**is.weakSet(value)**  
+**is.weakSet(value)**
 
 ##  Contributing
 
