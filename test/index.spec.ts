@@ -288,6 +288,14 @@ describe('is.oneOf', () => {
   });
 });
 
+describe('is.plainFunction', () => {
+  it('should return the expected value', () => {
+    types.forEach(d => {
+      expect(is.plainFunction(d.value)).toBe(d.key === 'function');
+    });
+  });
+});
+
 describe('is.plainObject', () => {
   it('should return the expected value', () => {
     types.forEach(d => {

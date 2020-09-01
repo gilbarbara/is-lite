@@ -112,6 +112,9 @@ is.numericString('Inifinity'); // true
 is.numericString('NaN'); // true
 ```
 
+**is.plainFunction(value)**  
+Check if `value` is a function (doesn't include async and generator functions)
+
 **is.object(value) **  
 Remember that functions and arrays are objects too.
 

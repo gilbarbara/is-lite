@@ -65,7 +65,7 @@ const is = (value: unknown): Types => {
     return Types.array;
   }
 
-  if (is.function(value)) {
+  if (is.plainFunction(value)) {
     return Types.function;
   }
 
@@ -188,6 +188,8 @@ is.oneOf = (target: unknown[], value: any): boolean => {
 
   return target.indexOf(value) > -1;
 };
+
+is.plainFunction = isObjectOfType<Function>(Types.function);
 
 is.plainObject = (value: unknown): value is PlainObject => {
   if (getObjectType(value) !== 'Object') {
