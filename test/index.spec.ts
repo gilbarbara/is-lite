@@ -1,3 +1,4 @@
+/* eslint-disable symbol-description,max-classes-per-file */
 import is from '../src';
 
 class ClassTest {}
@@ -40,6 +41,7 @@ describe('is', () => {
   it.each([
     [[], 'Array'],
     [asyncFn, 'AsyncFunction'],
+    // eslint-disable-next-line no-undef
     [BigInt(9007199254740991), 'bigint'],
     [true, 'boolean'],
     [new Date(), 'Date'],
@@ -143,13 +145,9 @@ describe('is.empty', () => {
     [{ key: '' }, false],
     [new Set([1]), false],
     [testMap, false],
-  ])(
-    '%p should return %p',
-    // @ts-ignore
-    (input: any, expected: boolean) => {
-      expect(is.empty(input)).toBe(expected);
-    },
-  );
+  ])('%p should return %p', (input: any, expected: boolean) => {
+    expect(is.empty(input)).toBe(expected);
+  });
 });
 
 describe('is.error', () => {

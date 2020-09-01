@@ -1,6 +1,6 @@
 type Class<T = unknown> = new (...args: any[]) => T;
 
-interface IPlainObject {
+interface PlainObject {
   [key: string]: unknown;
 }
 
@@ -89,7 +89,6 @@ is.arrayOf = (target: unknown[], predicate: (v: unknown) => boolean): boolean =>
   return target.every(d => predicate(d));
 };
 
-// tslint:disable-next-line:ban-types
 is.asyncFunction = isObjectOfType<Function>(Types.asyncFunction);
 
 is.boolean = (value: unknown): value is boolean => {
@@ -130,7 +129,6 @@ is.empty = (value: unknown): boolean => {
 
 is.error = isObjectOfType<Error>(Types.error);
 
-// tslint:disable-next-line:ban-types
 is.function = isObjectOfType<Function>(Types.function);
 
 is.generator = (value: unknown): value is Generator => {
@@ -143,7 +141,6 @@ is.generator = (value: unknown): value is Generator => {
 
 is.generatorFunction = isObjectOfType<GeneratorFunction>(Types.generatorFunction);
 
-// tslint:disable-next-line:variable-name
 is.instanceOf = <T>(instance: unknown, class_: Class<T>): instance is T => {
   if (!instance || !(class_ as Class<T>)) {
     return false;
@@ -192,7 +189,7 @@ is.oneOf = (target: unknown[], value: any): boolean => {
   return target.indexOf(value) > -1;
 };
 
-is.plainObject = (value: unknown): value is IPlainObject => {
+is.plainObject = (value: unknown): value is PlainObject => {
   if (getObjectType(value) !== 'Object') {
     return false;
   }
