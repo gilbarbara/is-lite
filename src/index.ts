@@ -129,7 +129,7 @@ is.empty = (value: unknown): boolean => {
 
 is.error = isObjectOfType<Error>(Types.error);
 
-is.function = isObjectOfType<Function>(Types.function);
+is.function = isOfType<Function>('function');
 
 is.generator = (value: unknown): value is Generator => {
   return (

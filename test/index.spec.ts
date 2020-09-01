@@ -13,14 +13,14 @@ async function asyncFn(): Promise<any> {
 
 const types = [
   { key: 'array', value: [] },
-  { key: 'asyncFunction', value: asyncFn },
+  { key: 'asyncFunction', base: 'function', value: asyncFn },
   { key: 'boolean', value: true },
   { key: 'date', value: new Date() },
   { key: 'domElement', value: document.createElement('div') },
   { key: 'error', value: new Error() },
   { key: 'function', value: (): any => undefined },
   { key: 'generator', value: generatorFn() },
-  { key: 'generatorFunction', value: generatorFn },
+  { key: 'generatorFunction', base: 'function', value: generatorFn },
   { key: 'map', value: new Map() },
   { key: 'nan', value: NaN },
   { key: 'null', value: null },
@@ -161,7 +161,7 @@ describe('is.error', () => {
 describe('is.function', () => {
   it('should return the expected value', () => {
     types.forEach(d => {
-      expect(is.function(d.value)).toBe(d.key === 'function');
+      expect(is.function(d.value)).toBe(d.key === 'function' || d.base === 'function');
     });
   });
 });
@@ -248,16 +248,18 @@ describe('is.numericString', () => {
 });
 
 describe('is.object', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.object(d.value)}`, () => {
       expect(is.object(d.value)).toBe(
         [
           'array',
+          'asyncFunction',
           'date',
           'domElement',
           'error',
           'function',
           'generator',
+          'generatorFunction',
           'map',
           'object',
           'promise',
