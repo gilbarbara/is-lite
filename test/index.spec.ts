@@ -68,17 +68,9 @@ describe('is', () => {
   });
 });
 
-describe('is.asyncFunction', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
-      expect(is.asyncFunction(d.value)).toBe(d.key === 'asyncFunction');
-    });
-  });
-});
-
 describe('is.array', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.array(d.value)}`, () => {
       expect(is.array(d.value)).toBe(d.key === 'array');
     });
   });
@@ -98,33 +90,41 @@ describe('is.arrayOf', () => {
   });
 });
 
+describe('is.asyncFunction', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.asyncFunction(d.value)}`, () => {
+      expect(is.asyncFunction(d.value)).toBe(d.key === 'asyncFunction');
+    });
+  });
+});
+
 describe('is.boolean', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.boolean(d.value)}`, () => {
       expect(is.boolean(d.value)).toBe(d.key === 'boolean');
     });
   });
 });
 
 describe('is.date', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.date(d.value)}`, () => {
       expect(is.date(d.value)).toBe(d.key === 'date');
     });
   });
 });
 
 describe('is.defined', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.defined(d.value)}`, () => {
       expect(is.defined(d.value)).toBe(d.key !== 'undefined');
     });
   });
 });
 
 describe('is.domElement', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.domElement(d.value)}`, () => {
       expect(is.domElement(d.value)).toBe(d.key === 'domElement');
     });
   });
@@ -151,55 +151,56 @@ describe('is.empty', () => {
 });
 
 describe('is.error', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.error(d.value)}`, () => {
       expect(is.error(d.value)).toBe(d.key === 'error');
     });
   });
 });
 
 describe('is.function', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.function(d.value)}`, () => {
       expect(is.function(d.value)).toBe(d.key === 'function' || d.base === 'function');
     });
   });
 });
 
 describe('is.generator', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.generator(d.value)}`, () => {
       expect(is.generator(d.value)).toBe(d.key === 'generator');
     });
   });
 });
 
 describe('is.generatorFunction', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.generatorFunction(d.value)}`, () => {
       expect(is.generatorFunction(d.value)).toBe(d.key === 'generatorFunction');
     });
   });
 });
 
 describe('instanceOf', () => {
-  it('should return the expected value', () => {
-    const test = new ClassTest();
+  const test = new ClassTest();
 
+  it('should return the expected value', () => {
     expect(is.instanceOf(test, ClassTest)).toBe(true);
 
-    // tslint:disable-next-line:max-classes-per-file
     expect(is.instanceOf(test, class Test2 {})).toBe(false);
+  });
 
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.instanceOf(d.value, ClassTest)}`, () => {
       expect(is.instanceOf(d.value, ClassTest)).toBe(false);
     });
   });
 });
 
 describe('is.iterable', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.iterable(d.value)}`, () => {
       expect(is.iterable(d.value)).toBe(
         ['array', 'generator', 'map', 'numericString', 'set', 'string'].indexOf(d.key) >= 0,
       );
@@ -208,40 +209,40 @@ describe('is.iterable', () => {
 });
 
 describe('is.map', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.map(d.value)}`, () => {
       expect(is.map(d.value)).toBe(d.key === 'map');
     });
   });
 });
 
 describe('is.null', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.null(d.value)}`, () => {
       expect(is.null(d.value)).toBe(d.key === 'null');
     });
   });
 });
 
 describe('is.nullOrUndefined', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.nullOrUndefined(d.value)}`, () => {
       expect(is.nullOrUndefined(d.value)).toBe(['null', 'undefined'].indexOf(d.key) >= 0);
     });
   });
 });
 
 describe('is.number', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.number(d.value)}`, () => {
       expect(is.number(d.value)).toBe(d.key === 'number');
     });
   });
 });
 
 describe('is.numericString', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.numericString(d.value)}`, () => {
       expect(is.numericString(d.value)).toBe(d.key === 'numericString');
     });
   });
@@ -291,24 +292,24 @@ describe('is.oneOf', () => {
 });
 
 describe('is.plainFunction', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.plainFunction(d.value)}`, () => {
       expect(is.plainFunction(d.value)).toBe(d.key === 'function');
     });
   });
 });
 
 describe('is.plainObject', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.plainObject(d.value)}`, () => {
       expect(is.plainObject(d.value)).toBe(d.key === 'object');
     });
   });
 });
 
 describe('is.promise', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.promise(d.value)}`, () => {
       expect(is.promise(d.value)).toBe(d.key === 'promise');
     });
   });
@@ -363,56 +364,56 @@ describe('is.propertyOf', () => {
 });
 
 describe('is.regexp', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.regexp(d.value)}`, () => {
       expect(is.regexp(d.value)).toBe(d.key === 'regexp');
     });
   });
 });
 
 describe('is.set', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.set(d.value)}`, () => {
       expect(is.set(d.value)).toBe(d.key === 'set');
     });
   });
 });
 
 describe('is.string', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.string(d.value)}`, () => {
       expect(is.string(d.value)).toBe(['numericString', 'string'].indexOf(d.key) >= 0);
     });
   });
 });
 
 describe('is.symbol', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.symbol(d.value)}`, () => {
       expect(is.symbol(d.value)).toBe(d.key === 'symbol');
     });
   });
 });
 
 describe('is.undefined', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.undefined(d.value)}`, () => {
       expect(is.undefined(d.value)).toBe(d.key === 'undefined');
     });
   });
 });
 
 describe('is.weakMap', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.weakMap(d.value)}`, () => {
       expect(is.weakMap(d.value)).toBe(d.key === 'weakMap');
     });
   });
 });
 
 describe('is.weakSet', () => {
-  it('should return the expected value', () => {
-    types.forEach(d => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.weakSet(d.value)}`, () => {
       expect(is.weakSet(d.value)).toBe(d.key === 'weakSet');
     });
   });
