@@ -179,3 +179,5 @@ This project is [MIT](https://github.com/gilbarbara/is-lite/blob/master/LICENSE)
 
 [@sindresorhus/is](https://github.com/sindresorhus/is) is amazing but I needed something even smaller (and simpler).
 This package cover the basics and is less than 1k minified+gzipped.
+
+If you need to support legacy browsers, the **Number.isNaN** polyfill is required.
