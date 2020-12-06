@@ -1,8 +1,6 @@
 type Class<T = unknown> = new (...args: any[]) => T;
-
-interface PlainObject {
-  [key: string]: unknown;
-}
+type PlainFunction = () => unknown;
+type PlainObject = Record<string, unknown>;
 
 const enum Types {
   array = 'Array',
@@ -89,7 +87,7 @@ is.arrayOf = (target: unknown[], predicate: (v: unknown) => boolean): boolean =>
   return target.every(d => predicate(d));
 };
 
-is.asyncFunction = isObjectOfType<Function>(Types.asyncFunction);
+is.asyncFunction = isObjectOfType<PlainFunction>(Types.asyncFunction);
 
 is.boolean = (value: unknown): value is boolean => {
   return value === true || value === false;
@@ -129,7 +127,7 @@ is.empty = (value: unknown): boolean => {
 
 is.error = isObjectOfType<Error>(Types.error);
 
-is.function = isOfType<Function>('function');
+is.function = isOfType<PlainFunction>('function');
 
 is.generator = (value: unknown): value is Generator => {
   return (
@@ -177,7 +175,7 @@ is.numericString = (value: unknown): value is string => {
   return is.string(value) && (value as string).length > 0 && !Number.isNaN(Number(value));
 };
 
-is.object = (value: unknown): value is object => {
+is.object = (value: unknown): value is PlainObject => {
   return !is.nullOrUndefined(value) && (is.function(value) || typeof value === 'object');
 };
 
@@ -189,7 +187,7 @@ is.oneOf = (target: unknown[], value: any): boolean => {
   return target.indexOf(value) > -1;
 };
 
-is.plainFunction = isObjectOfType<Function>(Types.function);
+is.plainFunction = isObjectOfType<PlainFunction>(Types.function);
 
 is.plainObject = (value: unknown): value is PlainObject => {
   if (getObjectType(value) !== 'Object') {
@@ -203,12 +201,15 @@ is.plainObject = (value: unknown): value is PlainObject => {
 
 is.promise = isObjectOfType<Promise<unknown>>(Types.promise);
 
-is.propertyOf = (target: object, key: string, predicate?: (v: unknown) => boolean): boolean => {
+is.propertyOf = (
+  target: PlainObject,
+  key: string,
+  predicate?: (v: unknown) => boolean,
+): boolean => {
   if (!is.object(target) || !key) {
     return false;
   }
 
-  // @ts-ignore
   const value = target[key];
 
   if (is.function(predicate)) {
@@ -220,7 +221,7 @@ is.propertyOf = (target: object, key: string, predicate?: (v: unknown) => boolea
 
 is.regexp = isObjectOfType<RegExp>(Types.regExp);
 
-is.set = isObjectOfType<Set<object>>(Types.set);
+is.set = isObjectOfType<Set<PlainObject>>(Types.set);
 
 is.string = isOfType<string>(Types.string);
 
@@ -228,8 +229,8 @@ is.symbol = isOfType<symbol>(Types.symbol);
 
 is.undefined = isOfType<undefined>(Types.undefined);
 
-is.weakMap = isObjectOfType<WeakMap<object, unknown>>(Types.weakMap);
+is.weakMap = isObjectOfType<WeakMap<PlainObject, unknown>>(Types.weakMap);
 
-is.weakSet = isObjectOfType<WeakSet<object>>(Types.weakSet);
+is.weakSet = isObjectOfType<WeakSet<PlainObject>>(Types.weakSet);
 
 export default is;

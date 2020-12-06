@@ -18,7 +18,7 @@ const types = [
   { key: 'date', value: new Date() },
   { key: 'domElement', value: document.createElement('div') },
   { key: 'error', value: new Error() },
-  { key: 'function', value: (): any => undefined },
+  { key: 'function', value: () => undefined },
   { key: 'generator', value: generatorFn() },
   { key: 'generatorFunction', base: 'function', value: generatorFn },
   { key: 'map', value: new Map() },
