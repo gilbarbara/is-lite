@@ -13,9 +13,19 @@
     "jest": true,
     "node": true
   },
+  "overrides": [
+    {
+      "files": ["test/**/*.ts?(x)"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
+      }
+    }
+  ],
   "plugins": ["prettier"],
   "rules": {
     "no-restricted-syntax": ["error", "DebuggerStatement", "LabeledStatement", "WithStatement"],
+    "no-shadow": "off",
     "spaced-comment": [
       "warn",
       "always",
@@ -36,6 +46,7 @@
     "@typescript-eslint/no-use-before-define": ["error", { "functions": false }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-shadow": "error",
     "import/extensions": ["warn", "never"],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/prefer-default-export": "off"
