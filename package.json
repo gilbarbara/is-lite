@@ -3,6 +3,17 @@
   "version": "0.7.0",
   "description": "A tiny javascript type testing tool",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
+  "keywords": [
+    "type",
+    "check",
+    "assertion",
+    "validation",
+    "test",
+    "typeguard",
+    "typeof",
+    "instanceof"
+  ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gilbarbara/is-lite.git"
@@ -12,39 +23,37 @@
   },
   "homepage": "https://github.com/gilbarbara/is-lite#readme",
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "files": [
     "lib",
     "esm",
     "src"
   ],
-  "types": "lib/index.d.ts",
-  "keywords": [
-    "type",
-    "test"
-  ],
-  "license": "MIT",
+  "types": "lib",
+  "sideEffects": false,
   "dependencies": {},
   "devDependencies": {
     "@gilbarbara/tsconfig": "^0.1.0",
-    "@size-limit/preset-small-lib": "^4.5.7",
-    "@types/jest": "^26.0.12",
-    "@types/node": "^14.6.2",
-    "@typescript-eslint/eslint-plugin": "^2.23.0",
-    "@typescript-eslint/parser": "^2.23.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.2",
-    "husky": "^4.2.5",
-    "jest": "^26.4.2",
-    "prettier": "^2.1.1",
+    "@size-limit/preset-small-lib": "^4.9.1",
+    "@types/jest": "^26.0.16",
+    "@types/node": "^14.14.10",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.2.0",
+    "husky": "^4.3.4",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
     "repo-tools": "^0.2.0",
     "rimraf": "^3.0.2",
-    "size-limit": "^4.5.7",
-    "ts-jest": "^26.3.0",
-    "typescript": "^4.0.2"
+    "size-limit": "^4.9.1",
+    "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.0",
+    "typescript": "^4.1.2"
   },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
@@ -56,55 +65,26 @@
     "lint": "eslint --ext .ts,.tsx src test",
     "test": "jest",
     "test:coverage": "jest --bail --coverage",
-    "test:watch": "jest --watch --verbose",
+    "test:watch": "jest --watchAll --verbose",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
     "validate": "npm run lint && npm run test:coverage && npm run build && npm run size",
     "size": "size-limit",
     "prepublishOnly": "npm run validate"
   },
   "prettier": {
-    "trailingComma": "all",
-    "singleQuote": true,
     "arrowParens": "avoid",
     "printWidth": 100,
-    "proseWrap": "never"
-  },
-  "jest": {
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "src/**/*.ts"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 95,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
-      }
-    },
-    "globals": {
-      "ts-jest": {
-        "tsConfig": {
-          "target": "esnext"
-        }
-      }
-    },
-    "moduleDirectories": [
-      "node_modules",
-      "src",
-      "./"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts"
-    ],
-    "preset": "ts-jest",
-    "testRegex": "/test/.*?\\.(test|spec)\\.ts$",
-    "verbose": false
+    "proseWrap": "never",
+    "singleQuote": true,
+    "trailingComma": "all"
   },
   "size-limit": [
     {
       "path": "./lib/index.js",
+      "limit": "1 kB"
+    },
+    {
+      "path": "./esm/index.js",
       "limit": "1 kB"
     }
   ],
