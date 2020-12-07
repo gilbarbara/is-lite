@@ -48,6 +48,9 @@ Check if `value` is an `async` function that can be called with `await`
 is.asyncFunction(async () => {}); // true
 is.asyncFunction(() => {}); // false
 ```
+**is.asyncGeneratorFunction(value)**
+
+**is.bigint(value)**
 
 **is.boolean(value)**
 
@@ -114,6 +117,8 @@ is.numericString('NaN'); // true
 
 **is.plainFunction(value)**  
 Check if `value` is a function (doesn't include async and generator functions)
+
+**is.primitive(value)**
 
 **is.object(value)**  
 Remember that functions and arrays are objects too.
