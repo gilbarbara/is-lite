@@ -10,6 +10,14 @@ const primitiveTypeNames = [
   'undefined',
 ] as const;
 
+const DOM_PROPERTIES_TO_CHECK: Array<keyof HTMLElement> = [
+  'innerHTML',
+  'ownerDocument',
+  'style',
+  'attributes',
+  'nodeValue',
+];
+
 type PrimitiveTypeName = typeof primitiveTypeNames[number];
 
 const enum Types {
@@ -117,21 +125,13 @@ is.date = isObjectOfType<Date>(Types.date);
 
 is.defined = (value: unknown): boolean => !is.undefined(value);
 
-is.domElement = (value: unknown): value is Element => {
-  const DOM_PROPERTIES_TO_CHECK = [
-    'innerHTML',
-    'ownerDocument',
-    'style',
-    'attributes',
-    'nodeValue',
-  ];
-
+is.domElement = (value: unknown): value is HTMLElement => {
   return (
     is.object(value) &&
     !is.plainObject(value) &&
-    (value as Element).nodeType === 1 &&
-    is.string((value as Element).nodeName) &&
-    DOM_PROPERTIES_TO_CHECK.every(property => property in (value as Element))
+    (value as HTMLElement).nodeType === 1 &&
+    is.string((value as HTMLElement).nodeName) &&
+    DOM_PROPERTIES_TO_CHECK.every(property => property in (value as HTMLElement))
   );
 };
 
