@@ -1,10 +1,21 @@
-type Class<T = unknown> = new (...args: any[]) => T;
-type PlainFunction = () => unknown;
-type PlainObject = Record<string, unknown>;
+import { Class, PlainObject, Primitive } from './types';
+
+const primitiveTypeNames = [
+  'bigint',
+  'boolean',
+  'null',
+  'number',
+  'string',
+  'symbol',
+  'undefined',
+] as const;
+
+type PrimitiveTypeName = typeof primitiveTypeNames[number];
 
 const enum Types {
   array = 'Array',
   asyncFunction = 'AsyncFunction',
+  asyncGeneratorFunction = 'AsyncGeneratorFunction',
   bigint = 'bigint',
   boolean = 'boolean',
   date = 'Date',
@@ -33,29 +44,32 @@ export const getObjectType = (value: unknown): string =>
 const isObjectOfType = <T>(type: string) => (value: unknown): value is T =>
   getObjectType(value) === type;
 
-const isOfType = <T>(type: string) => (value: unknown): value is T => typeof value === type;
+// eslint-disable-next-line @typescript-eslint/ban-types
+const isOfType = <T extends Primitive | Function>(type: string) => (value: unknown): value is T =>
+  typeof value === type;
+
+function isPrimitiveType(name: unknown): name is PrimitiveTypeName {
+  return primitiveTypeNames.includes(name as PrimitiveTypeName);
+}
 
 const is = (value: unknown): Types => {
-  switch (value) {
-    case null:
-      return Types.null;
-    case true:
-    case false:
-      return Types.boolean;
-    default:
+  if (value === null) {
+    return Types.null;
   }
 
   switch (typeof value) {
-    case 'undefined':
-      return Types.undefined;
-    case 'string':
-      return Types.string;
-    case 'number':
-      return Types.number;
     case 'bigint':
       return Types.bigint;
+    case 'boolean':
+      return Types.boolean;
+    case 'number':
+      return Types.number;
+    case 'string':
+      return Types.string;
     case 'symbol':
       return Types.symbol;
+    case 'undefined':
+      return Types.undefined;
     default:
   }
 
@@ -87,7 +101,13 @@ is.arrayOf = (target: unknown[], predicate: (v: unknown) => boolean): boolean =>
   return target.every(d => predicate(d));
 };
 
-is.asyncFunction = isObjectOfType<PlainFunction>(Types.asyncFunction);
+is.asyncGeneratorFunction = (value: unknown): value is (...args: any[]) => Promise<unknown> =>
+  getObjectType(value) === Types.asyncGeneratorFunction;
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+is.asyncFunction = isObjectOfType<Function>(Types.asyncFunction);
+
+is.bigint = isOfType<bigint>('bigint');
 
 is.boolean = (value: unknown): value is boolean => {
   return value === true || value === false;
@@ -127,7 +147,8 @@ is.empty = (value: unknown): boolean => {
 
 is.error = isObjectOfType<Error>(Types.error);
 
-is.function = isOfType<PlainFunction>('function');
+// eslint-disable-next-line @typescript-eslint/ban-types
+is.function = isOfType<Function>('function');
 
 is.generator = (value: unknown): value is Generator => {
   return (
@@ -175,7 +196,8 @@ is.numericString = (value: unknown): value is string => {
   return is.string(value) && (value as string).length > 0 && !Number.isNaN(Number(value));
 };
 
-is.object = (value: unknown): value is PlainObject => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+is.object = (value: unknown): value is object => {
   return !is.nullOrUndefined(value) && (is.function(value) || typeof value === 'object');
 };
 
@@ -187,7 +209,8 @@ is.oneOf = (target: unknown[], value: any): boolean => {
   return target.indexOf(value) > -1;
 };
 
-is.plainFunction = isObjectOfType<PlainFunction>(Types.function);
+// eslint-disable-next-line @typescript-eslint/ban-types
+is.plainFunction = isObjectOfType<Function>(Types.function);
 
 is.plainObject = (value: unknown): value is PlainObject => {
   if (getObjectType(value) !== 'Object') {
@@ -198,6 +221,9 @@ is.plainObject = (value: unknown): value is PlainObject => {
 
   return prototype === null || prototype === Object.getPrototypeOf({});
 };
+
+is.primitive = (value: unknown): value is Primitive =>
+  is.null(value) || isPrimitiveType(typeof value);
 
 is.promise = isObjectOfType<Promise<unknown>>(Types.promise);
 

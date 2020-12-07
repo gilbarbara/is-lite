@@ -11,9 +11,14 @@ async function asyncFn(): Promise<any> {
   return undefined;
 }
 
+async function* asyncGeneratorFn() {
+  yield 4;
+}
+
 const types = [
   { key: 'array', value: [] },
   { key: 'asyncFunction', base: 'function', value: asyncFn },
+  { key: 'asyncGeneratorFunction', base: 'function', value: asyncGeneratorFn },
   { key: 'boolean', value: true },
   { key: 'date', value: new Date() },
   { key: 'domElement', value: document.createElement('div') },
@@ -41,7 +46,7 @@ describe('is', () => {
   it.each([
     [[], 'Array'],
     [asyncFn, 'AsyncFunction'],
-    // eslint-disable-next-line no-undef
+    [asyncGeneratorFn, 'AsyncGeneratorFunction'],
     [BigInt(9007199254740991), 'bigint'],
     [true, 'boolean'],
     [new Date(), 'Date'],
@@ -94,6 +99,22 @@ describe('is.asyncFunction', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.asyncFunction(d.value)}`, () => {
       expect(is.asyncFunction(d.value)).toBe(d.key === 'asyncFunction');
+    });
+  });
+});
+
+describe('is.asyncGeneratorFunction', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.asyncGeneratorFunction(d.value)}`, () => {
+      expect(is.asyncGeneratorFunction(d.value)).toBe(d.key === 'asyncGeneratorFunction');
+    });
+  });
+});
+
+describe('is.bigint', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.bigint(d.value)}`, () => {
+      expect(is.bigint(d.value)).toBe(d.key === 'bigint');
     });
   });
 });
@@ -250,27 +271,28 @@ describe('is.numericString', () => {
 });
 
 describe('is.object', () => {
+  const validTypes = [
+    'array',
+    'asyncGeneratorFunction',
+    'asyncFunction',
+    'date',
+    'domElement',
+    'error',
+    'function',
+    'generator',
+    'generatorFunction',
+    'map',
+    'object',
+    'promise',
+    'regexp',
+    'set',
+    'weakMap',
+    'weakSet',
+  ];
+
   types.forEach(d => {
     it(`${d.key} should return ${is.object(d.value)}`, () => {
-      expect(is.object(d.value)).toBe(
-        [
-          'array',
-          'asyncFunction',
-          'date',
-          'domElement',
-          'error',
-          'function',
-          'generator',
-          'generatorFunction',
-          'map',
-          'object',
-          'promise',
-          'regexp',
-          'set',
-          'weakMap',
-          'weakSet',
-        ].indexOf(d.key) >= 0,
-      );
+      expect(is.object(d.value)).toBe(validTypes.indexOf(d.key) >= 0);
     });
   });
 });
@@ -304,6 +326,26 @@ describe('is.plainObject', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.plainObject(d.value)}`, () => {
       expect(is.plainObject(d.value)).toBe(d.key === 'object');
+    });
+  });
+});
+
+describe('is.primitive', () => {
+  const validTypes = [
+    'bigint',
+    'boolean',
+    'null',
+    'nan',
+    'number',
+    'numericString',
+    'string',
+    'symbol',
+    'undefined',
+  ];
+
+  types.forEach(d => {
+    it(`${d.key} should return ${is.primitive(d.value)}`, () => {
+      expect(is.primitive(d.value)).toBe(validTypes.indexOf(d.key) >= 0);
     });
   });
 });
