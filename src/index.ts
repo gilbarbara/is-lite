@@ -1,6 +1,35 @@
 import { Class, PlainObject, Primitive } from './types';
 
-const primitiveTypeNames = [
+const DOM_PROPERTIES_TO_CHECK: Array<keyof HTMLElement> = [
+  'innerHTML',
+  'ownerDocument',
+  'style',
+  'attributes',
+  'nodeValue',
+];
+
+const objectTypes = [
+  'Array',
+  'ArrayBuffer',
+  'AsyncFunction',
+  'AsyncGenerator',
+  'AsyncGeneratorFunction',
+  'Date',
+  'Error',
+  'Function',
+  'Generator',
+  'GeneratorFunction',
+  'HTMLElement',
+  'Map',
+  'Object',
+  'Promise',
+  'RegExp',
+  'Set',
+  'WeakMap',
+  'WeakSet',
+] as const;
+
+const primitiveTypes = [
   'bigint',
   'boolean',
   'null',
@@ -10,94 +39,81 @@ const primitiveTypeNames = [
   'undefined',
 ] as const;
 
-const DOM_PROPERTIES_TO_CHECK: Array<keyof HTMLElement> = [
-  'innerHTML',
-  'ownerDocument',
-  'style',
-  'attributes',
-  'nodeValue',
-];
+export type ObjectTypes = typeof objectTypes[number];
 
-type PrimitiveTypeName = typeof primitiveTypeNames[number];
+export type PrimitiveTypes = typeof primitiveTypes[number];
 
-const enum Types {
-  array = 'Array',
-  asyncFunction = 'AsyncFunction',
-  asyncGeneratorFunction = 'AsyncGeneratorFunction',
-  bigint = 'bigint',
-  boolean = 'boolean',
-  date = 'Date',
-  error = 'Error',
-  function = 'Function',
-  generator = 'Generator',
-  generatorFunction = 'GeneratorFunction',
-  iterable = 'Iterable',
-  map = 'Map',
-  null = 'null',
-  number = 'number',
-  object = 'Object',
-  promise = 'Promise',
-  regExp = 'RegExp',
-  set = 'Set',
-  string = 'string',
-  symbol = 'symbol',
-  undefined = 'undefined',
-  weakMap = 'WeakMap',
-  weakSet = 'WeakSet',
+export type TypeName = ObjectTypes | PrimitiveTypes;
+
+export function getObjectType(value: unknown): ObjectTypes | undefined {
+  const objectTypeName = Object.prototype.toString.call(value).slice(8, -1);
+
+  if (/HTML\w+Element/.test(objectTypeName)) {
+    return 'HTMLElement';
+  }
+
+  if (isObjectType(objectTypeName)) {
+    return objectTypeName;
+  }
+
+  return undefined;
 }
 
-export const getObjectType = (value: unknown): string =>
-  Object.prototype.toString.call(value).slice(8, -1);
+function isObjectOfType<T>(type: string) {
+  return (value: unknown): value is T => getObjectType(value) === type;
+}
 
-const isObjectOfType = <T>(type: string) => (value: unknown): value is T =>
-  getObjectType(value) === type;
+function isObjectType(name: unknown): name is ObjectTypes {
+  return objectTypes.includes(name as ObjectTypes);
+}
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-const isOfType = <T extends Primitive | Function>(type: string) => (value: unknown): value is T =>
-  typeof value === type;
-
-function isPrimitiveType(name: unknown): name is PrimitiveTypeName {
-  return primitiveTypeNames.includes(name as PrimitiveTypeName);
+function isOfType<T extends Primitive | Function>(type: string) {
+  return (value: unknown): value is T => typeof value === type;
 }
 
-const is = (value: unknown): Types => {
+function isPrimitiveType(name: unknown): name is PrimitiveTypes {
+  return primitiveTypes.includes(name as PrimitiveTypes);
+}
+
+function is(value: unknown): TypeName {
   if (value === null) {
-    return Types.null;
+    return 'null';
   }
 
   switch (typeof value) {
     case 'bigint':
-      return Types.bigint;
+      return 'bigint';
     case 'boolean':
-      return Types.boolean;
+      return 'boolean';
     case 'number':
-      return Types.number;
+      return 'number';
     case 'string':
-      return Types.string;
+      return 'string';
     case 'symbol':
-      return Types.symbol;
+      return 'symbol';
     case 'undefined':
-      return Types.undefined;
+      return 'undefined';
     default:
   }
 
   if (is.array(value)) {
-    return Types.array;
+    return 'Array';
   }
 
   if (is.plainFunction(value)) {
-    return Types.function;
+    return 'Function';
   }
 
   const tagType = getObjectType(value);
   /* istanbul ignore else */
   if (tagType) {
-    return tagType as Types;
+    return tagType;
   }
 
   /* istanbul ignore next */
-  return Types.object;
-};
+  return 'Object';
+}
 
 is.array = Array.isArray;
 
@@ -110,10 +126,10 @@ is.arrayOf = (target: unknown[], predicate: (v: unknown) => boolean): boolean =>
 };
 
 is.asyncGeneratorFunction = (value: unknown): value is (...args: any[]) => Promise<unknown> =>
-  getObjectType(value) === Types.asyncGeneratorFunction;
+  getObjectType(value) === 'AsyncGeneratorFunction';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-is.asyncFunction = isObjectOfType<Function>(Types.asyncFunction);
+is.asyncFunction = isObjectOfType<Function>('AsyncFunction');
 
 is.bigint = isOfType<bigint>('bigint');
 
@@ -121,7 +137,7 @@ is.boolean = (value: unknown): value is boolean => {
   return value === true || value === false;
 };
 
-is.date = isObjectOfType<Date>(Types.date);
+is.date = isObjectOfType<Date>('Date');
 
 is.defined = (value: unknown): boolean => !is.undefined(value);
 
@@ -145,7 +161,7 @@ is.empty = (value: unknown): boolean => {
   );
 };
 
-is.error = isObjectOfType<Error>(Types.error);
+is.error = isObjectOfType<Error>('Error');
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 is.function = isOfType<Function>('function');
@@ -158,7 +174,7 @@ is.generator = (value: unknown): value is Generator => {
   );
 };
 
-is.generatorFunction = isObjectOfType<GeneratorFunction>(Types.generatorFunction);
+is.generatorFunction = isObjectOfType<GeneratorFunction>('GeneratorFunction');
 
 is.instanceOf = <T>(instance: unknown, class_: Class<T>): instance is T => {
   if (!instance || !(class_ as Class<T>)) {
@@ -174,7 +190,7 @@ is.iterable = (value: unknown): value is IterableIterator<unknown> => {
   );
 };
 
-is.map = isObjectOfType<Map<unknown, unknown>>(Types.map);
+is.map = isObjectOfType<Map<unknown, unknown>>('Map');
 
 is.nan = (value: unknown): boolean => {
   return Number.isNaN(value as number);
@@ -189,7 +205,7 @@ is.nullOrUndefined = (value: unknown): value is null | undefined => {
 };
 
 is.number = (value: unknown): value is number => {
-  return isOfType<number>(Types.number)(value) && !is.nan(value);
+  return isOfType<number>('number')(value) && !is.nan(value);
 };
 
 is.numericString = (value: unknown): value is string => {
@@ -210,7 +226,7 @@ is.oneOf = (target: unknown[], value: any): boolean => {
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-is.plainFunction = isObjectOfType<Function>(Types.function);
+is.plainFunction = isObjectOfType<Function>('Function');
 
 is.plainObject = (value: unknown): value is PlainObject => {
   if (getObjectType(value) !== 'Object') {
@@ -225,7 +241,7 @@ is.plainObject = (value: unknown): value is PlainObject => {
 is.primitive = (value: unknown): value is Primitive =>
   is.null(value) || isPrimitiveType(typeof value);
 
-is.promise = isObjectOfType<Promise<unknown>>(Types.promise);
+is.promise = isObjectOfType<Promise<unknown>>('Promise');
 
 is.propertyOf = (
   target: PlainObject,
@@ -245,18 +261,20 @@ is.propertyOf = (
   return is.defined(value);
 };
 
-is.regexp = isObjectOfType<RegExp>(Types.regExp);
+is.regexp = isObjectOfType<RegExp>('RegExp');
 
-is.set = isObjectOfType<Set<PlainObject>>(Types.set);
+is.set = isObjectOfType<Set<PlainObject>>('Set');
 
-is.string = isOfType<string>(Types.string);
+is.string = isOfType<string>('string');
 
-is.symbol = isOfType<symbol>(Types.symbol);
+is.symbol = isOfType<symbol>('symbol');
 
-is.undefined = isOfType<undefined>(Types.undefined);
+is.undefined = isOfType<undefined>('undefined');
 
-is.weakMap = isObjectOfType<WeakMap<PlainObject, unknown>>(Types.weakMap);
+is.weakMap = isObjectOfType<WeakMap<PlainObject, unknown>>('WeakMap');
 
-is.weakSet = isObjectOfType<WeakSet<PlainObject>>(Types.weakSet);
+is.weakSet = isObjectOfType<WeakSet<PlainObject>>('WeakSet');
+
+export * from './types';
 
 export default is;

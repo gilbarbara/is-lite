@@ -24,31 +24,8 @@
   ],
   "plugins": ["prettier"],
   "rules": {
-    "no-restricted-syntax": ["error", "DebuggerStatement", "LabeledStatement", "WithStatement"],
-    "no-shadow": "off",
-    "spaced-comment": [
-      "warn",
-      "always",
-      {
-        "exceptions": ["-+"],
-        "markers": [
-          "eslint-disable",
-          "eslint-disable-line",
-          "eslint-disable-next-line",
-          "eslint-enable"
-        ]
-      }
-    ],
-    "valid-typeof": "off",
-    "@typescript-eslint/ban-ts-ignore": "off",
+    "no-use-before-define": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
-    "@typescript-eslint/no-use-before-define": ["error", { "functions": false }],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-shadow": "error",
-    "import/extensions": ["warn", "never"],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "import/prefer-default-export": "off"
+    "import/extensions": ["warn", "never"]
   }
 }
