@@ -15,6 +15,8 @@ async function* asyncGeneratorFn() {
   yield 4;
 }
 
+const tagNames = ['div', 'input', 'span', 'img', 'canvas', 'script'];
+
 const types = [
   { key: 'array', value: [] },
   { key: 'asyncFunction', base: 'function', value: asyncFn },
@@ -50,7 +52,7 @@ describe('is', () => {
     [BigInt(9007199254740991), 'bigint'],
     [true, 'boolean'],
     [new Date(), 'Date'],
-    [document.createElement('div'), 'HTMLDivElement'],
+    [document.createElement('div'), 'HTMLElement'],
     [new Error(), 'Error'],
     [(): any => undefined, 'Function'],
     [generatorFn(), 'Generator'],
@@ -70,6 +72,10 @@ describe('is', () => {
     [new WeakSet(), 'WeakSet'],
   ])('%p should return %p', (input: any, expected: string) => {
     expect(is(input)).toBe(expected);
+  });
+
+  it.each(tagNames.map(d => [d]))('%p should return HTMLElement', tagName => {
+    expect(is(document.createElement(tagName))).toBe('HTMLElement');
   });
 });
 
@@ -149,6 +155,10 @@ describe('is.domElement', () => {
       expect(is.domElement(d.value)).toBe(d.key === 'domElement');
     });
   });
+
+  it.each(tagNames.map(d => [d]))('%p should match HTMLElement', tagName => {
+    expect(is.domElement(document.createElement(tagName))).toBe(true);
+  });
 });
 
 describe('is.empty', () => {
@@ -203,7 +213,7 @@ describe('is.generatorFunction', () => {
   });
 });
 
-describe('instanceOf', () => {
+describe('is.instanceOf', () => {
   const test = new ClassTest();
 
   it('should return the expected value', () => {
