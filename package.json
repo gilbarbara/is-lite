@@ -1,6 +1,6 @@
 {
   "name": "is-lite",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A tiny javascript type testing tool",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "keywords": [
@@ -67,7 +67,9 @@
     "prepublishOnly": "npm run validate"
   },
   "eslintConfig": {
-    "extends": ["@gilbarbara/eslint-config"]
+    "extends": [
+      "@gilbarbara/eslint-config"
+    ]
   },
   "prettier": "@gilbarbara/prettier-config",
   "size-limit": [
