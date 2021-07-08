@@ -163,6 +163,7 @@ describe('is.domElement', () => {
 
 describe('is.empty', () => {
   const testMap = new Map();
+
   testMap.set('some', 'thing');
 
   it.each([

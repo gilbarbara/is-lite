@@ -106,6 +106,7 @@ function is(value: unknown): TypeName {
   }
 
   const tagType = getObjectType(value);
+
   /* istanbul ignore else */
   if (tagType) {
     return tagType;

@@ -20,5 +20,6 @@ module.exports = {
   moduleFileExtensions: ['js', 'ts'],
   preset: 'ts-jest',
   testRegex: '/test/.*?\\.(test|spec)\\.ts$',
+  testEnvironment: 'jsdom',
   verbose: false,
 };
