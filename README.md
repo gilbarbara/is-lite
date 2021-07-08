@@ -60,7 +60,7 @@ is.asyncFunction(() => {}); // false
 **is.defined(value)**  
 Check if `value` is anything but `undefined`.
 
-**is.domElement(value) **  
+**is.domElement(value)**  
 Check if `value` is a DOM Element.
 
 **is.empty(value)**  
@@ -76,7 +76,7 @@ Returns `true` if:
 
 **is.function(value)**
 
-**is.generator(value) **  
+**is.generator(value)**  
 Check for an object that has its own .next() and .throw() methods and has a function definition for `Symbol.iterator`
 
 **is.generatorFunction(value)**
