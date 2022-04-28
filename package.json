@@ -32,23 +32,23 @@
   "types": "lib",
   "sideEffects": false,
   "devDependencies": {
-    "@gilbarbara/eslint-config": "^0.1.4",
+    "@gilbarbara/eslint-config": "^0.2.1",
     "@gilbarbara/prettier-config": "^0.1.0",
     "@gilbarbara/tsconfig": "^0.1.0",
-    "@size-limit/preset-small-lib": "^5.0.1",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^16.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.2",
-    "@typescript-eslint/parser": "^4.28.2",
-    "husky": "^4.3.8",
-    "jest": "^27.0.6",
-    "prettier": "^2.3.2",
+    "@size-limit/preset-small-lib": "^7.0.8",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.29",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "prettier": "^2.6.2",
     "repo-tools": "^0.2.2",
     "rimraf": "^3.0.2",
-    "size-limit": "^5.0.1",
-    "ts-jest": "^27.0.3",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.5"
+    "size-limit": "^7.0.8",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
@@ -64,7 +64,8 @@
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
     "validate": "npm run lint && npm run test:coverage && npm run build && npm run size",
     "size": "size-limit",
-    "prepublishOnly": "npm run validate"
+    "prepublishOnly": "npm run validate",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -74,18 +75,14 @@
   "prettier": "@gilbarbara/prettier-config",
   "size-limit": [
     {
+      "name": "commonjs",
       "path": "./lib/index.js",
-      "limit": "1.1 kB"
+      "limit": "1.5 kB"
     },
     {
+      "name": "esm",
       "path": "./esm/index.js",
-      "limit": "1.1 kB"
+      "limit": "1.5 kB"
     }
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "repo-tools check-remote && npm run validate",
-      "post-merge": "repo-tools install-packages"
-    }
-  }
+  ]
 }

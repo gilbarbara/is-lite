@@ -1,4 +1,4 @@
-/* eslint-disable symbol-description,max-classes-per-file */
+/* eslint-disable symbol-description,max-classes-per-file,prefer-regex-literals,no-promise-executor-return */
 import is from '../src';
 
 class ClassTest {}
@@ -235,7 +235,7 @@ describe('is.iterable', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.iterable(d.value)}`, () => {
       expect(is.iterable(d.value)).toBe(
-        ['array', 'generator', 'map', 'numericString', 'set', 'string'].indexOf(d.key) >= 0,
+        ['array', 'generator', 'map', 'numericString', 'set', 'string'].includes(d.key),
       );
     });
   });
@@ -260,7 +260,7 @@ describe('is.null', () => {
 describe('is.nullOrUndefined', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.nullOrUndefined(d.value)}`, () => {
-      expect(is.nullOrUndefined(d.value)).toBe(['null', 'undefined'].indexOf(d.key) >= 0);
+      expect(is.nullOrUndefined(d.value)).toBe(['null', 'undefined'].includes(d.key));
     });
   });
 });
@@ -303,7 +303,7 @@ describe('is.object', () => {
 
   types.forEach(d => {
     it(`${d.key} should return ${is.object(d.value)}`, () => {
-      expect(is.object(d.value)).toBe(validTypes.indexOf(d.key) >= 0);
+      expect(is.object(d.value)).toBe(validTypes.includes(d.key));
     });
   });
 });
@@ -356,7 +356,7 @@ describe('is.primitive', () => {
 
   types.forEach(d => {
     it(`${d.key} should return ${is.primitive(d.value)}`, () => {
-      expect(is.primitive(d.value)).toBe(validTypes.indexOf(d.key) >= 0);
+      expect(is.primitive(d.value)).toBe(validTypes.includes(d.key));
     });
   });
 });
@@ -436,7 +436,7 @@ describe('is.set', () => {
 describe('is.string', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.string(d.value)}`, () => {
-      expect(is.string(d.value)).toBe(['numericString', 'string'].indexOf(d.key) >= 0);
+      expect(is.string(d.value)).toBe(['numericString', 'string'].includes(d.key));
     });
   });
 });
