@@ -126,7 +126,7 @@ is.arrayOf = (target: unknown[], predicate: (v: unknown) => boolean): boolean =>
   return target.every(d => predicate(d));
 };
 
-is.asyncGeneratorFunction = (value: unknown): value is (...args: any[]) => Promise<unknown> =>
+is.asyncGeneratorFunction = (value: unknown): value is (...arguments_: any[]) => Promise<unknown> =>
   getObjectType(value) === 'AsyncGeneratorFunction';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -223,6 +223,7 @@ is.oneOf = (target: unknown[], value: any): boolean => {
     return false;
   }
 
+  // eslint-disable-next-line unicorn/prefer-includes
   return target.indexOf(value) > -1;
 };
 
