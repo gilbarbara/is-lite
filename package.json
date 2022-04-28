@@ -1,6 +1,6 @@
 {
   "name": "is-lite",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A tiny javascript type testing tool",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "keywords": [
