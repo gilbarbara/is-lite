@@ -16,7 +16,7 @@ module.exports = {
       },
     },
   },
-  moduleDirectories: ['node_modules', 'src', './'],
+  moduleDirectories: ['node_modules', 'src'],
   moduleFileExtensions: ['js', 'ts'],
   preset: 'ts-jest',
   testRegex: '/test/.*?\\.(test|spec)\\.ts$',
