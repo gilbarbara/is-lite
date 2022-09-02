@@ -1,5 +1,4 @@
-import { Class, PlainObject, Primitive } from './types';
-
+/* eslint-disable @typescript-eslint/ban-types */
 const DOM_PROPERTIES_TO_CHECK: Array<keyof HTMLElement> = [
   'innerHTML',
   'ownerDocument',
@@ -39,10 +38,11 @@ const primitiveTypes = [
   'undefined',
 ] as const;
 
+export type Class<T = unknown> = new (...arguments_: any[]) => T;
 export type ObjectTypes = typeof objectTypes[number];
-
+export type PlainObject = Record<number | string | symbol, unknown>;
+export type Primitive = null | undefined | string | number | boolean | symbol | bigint;
 export type PrimitiveTypes = typeof primitiveTypes[number];
-
 export type TypeName = ObjectTypes | PrimitiveTypes;
 
 export function getObjectType(value: unknown): ObjectTypes | undefined {
@@ -67,7 +67,6 @@ function isObjectType(name: unknown): name is ObjectTypes {
   return objectTypes.includes(name as ObjectTypes);
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 function isOfType<T extends Primitive | Function>(type: string) {
   return (value: unknown): value is T => typeof value === type;
 }
@@ -129,7 +128,6 @@ is.arrayOf = (target: unknown[], predicate: (v: unknown) => boolean): boolean =>
 is.asyncGeneratorFunction = (value: unknown): value is (...arguments_: any[]) => Promise<unknown> =>
   getObjectType(value) === 'AsyncGeneratorFunction';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 is.asyncFunction = isObjectOfType<Function>('AsyncFunction');
 
 is.bigint = isOfType<bigint>('bigint');
@@ -164,7 +162,6 @@ is.empty = (value: unknown): boolean => {
 
 is.error = isObjectOfType<Error>('Error');
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 is.function = isOfType<Function>('function');
 
 is.generator = (value: unknown): value is Generator => {
@@ -213,7 +210,6 @@ is.numericString = (value: unknown): value is string => {
   return is.string(value) && (value as string).length > 0 && !Number.isNaN(Number(value));
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 is.object = (value: unknown): value is object => {
   return !is.nullOrUndefined(value) && (is.function(value) || typeof value === 'object');
 };
@@ -227,7 +223,6 @@ is.oneOf = (target: unknown[], value: any): boolean => {
   return target.indexOf(value) > -1;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 is.plainFunction = isObjectOfType<Function>('Function');
 
 is.plainObject = (value: unknown): value is PlainObject => {
@@ -276,7 +271,5 @@ is.undefined = isOfType<undefined>('undefined');
 is.weakMap = isObjectOfType<WeakMap<PlainObject, unknown>>('WeakMap');
 
 is.weakSet = isObjectOfType<WeakSet<PlainObject>>('WeakSet');
-
-export * from './types';
 
 export default is;
