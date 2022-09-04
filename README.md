@@ -1,6 +1,6 @@
 # is-lite
 
-[![NPM version](https://badge.fury.io/js/is-lite.svg)](https://www.npmjs.com/package/is-lite) [![Build Status](https://travis-ci.com/gilbarbara/is-lite.svg?branch=master)](https://travis-ci.com/gilbarbara/is-lite) [![is-lite](https://badgen.net/bundlephobia/minzip/is-lite?label=size)](https://bundlephobia.com/result?p=is-lite) [![Maintainability](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/maintainability)](https://codeclimate.com/github/gilbarbara/is-lite/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/test_coverage)](https://codeclimate.com/github/gilbarbara/is-lite/test_coverage)
+[![NPM version](https://badge.fury.io/js/is-lite.svg)](https://www.npmjs.com/package/is-lite) [![CI](https://github.com/gilbarbara/is-lite/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/is-lite/actions/workflows/main.yml) [![is-lite](https://badgen.net/bundlephobia/minzip/is-lite?label=size)](https://bundlephobia.com/result?p=is-lite) [![Maintainability](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/maintainability)](https://codeclimate.com/github/gilbarbara/is-lite/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/test_coverage)](https://codeclimate.com/github/gilbarbara/is-lite/test_coverage)
 
 > Lightweight type check tool.
 
@@ -26,13 +26,13 @@ is.string('value'); // true
 **is(value)**  
 Returns the type of the `value`.
 
-Primitives are lowercase: `bigint`, `boolean`, `null`, `number`, `string`, `symbol`, `undefined`  
+Primitives are lowercase: `bigint`, `boolean`, `null`, `number`, `string`, `symbol`, `undefined`.
 The rest are camelcase: `Array`, `Function`, `GeneratorFunction`, `Object`, ...
 
 **is.array(value)**
 
 **is.arrayOf(target: any[], predicate: (value: unknown) => boolean)**  
-Check if all items in an array are of same type.
+Check if all items in an array are of the same type.
 
 ```js
 is.arrayOf(['a', 'b'], is.string); // true
@@ -42,7 +42,7 @@ is.arrayOf(['a', 1], is.string); // false
 ```
 
 **is.asyncFunction(value)**  
-Check if `value` is an `async` function that can be called with `await`
+Check if the `value` is an `async` function that can be called with `await`.
 
 ```js
 is.asyncFunction(async () => {}); // true
@@ -58,19 +58,19 @@ is.asyncFunction(() => {}); // false
 **is.date(value)**
 
 **is.defined(value)**  
-Check if `value` is anything but `undefined`.
+Check if the `value` is anything but `undefined`.
 
 **is.domElement(value)**  
-Check if `value` is a DOM Element.
+Check if the `value` is a DOM Element.
 
 **is.empty(value)**  
 Returns `true` if:
 
-- the value is a `string` and `length` is 0
+- the value is a `string`, and the `length` is 0
 - the value is an `Object` and `Object.keys(value).length` is 0
-- the value is an `Array` and `length` is 0
-- the value is a `Map` and `size` is 0
-- the value is a `Set` and `size` is 0
+- the value is an `Array`, and the `length` is 0
+- the value is a `Map`, and the `size` is 0
+- the value is a `Set`, and the `size` is 0
 
 **is.error(value)**
 
@@ -82,7 +82,7 @@ Check for an object that has its own .next() and .throw() methods and has a func
 **is.generatorFunction(value)**
 
 **is.instanceOf(value, class)**  
-Check if `value` is a direct instance of `class`
+Check if the `value` is a direct instance of the `class`.
 
 ```js
 class APIError extends Error {}
@@ -117,7 +117,7 @@ is.numericString('NaN'); // true
 ```
 
 **is.plainFunction(value)**  
-Check if `value` is a function (doesn't include async and generator functions)
+Check if the `value` is a function (it doesn't include async and generator functions)
 
 **is.primitive(value)**
 
@@ -125,7 +125,7 @@ Check if `value` is a function (doesn't include async and generator functions)
 Remember that functions and arrays are objects too.
 
 **is.oneOf(target: any[], value: any)**  
-Check if `value` exists is the `target`
+Check if the `value` exists in the `target`
 
 ```js
 const colors = ['red', 'green', 'blue'];
@@ -140,7 +140,7 @@ Check if the object is created by either `{}`, `new Object()` or `Object.create(
 **is.promise(value)**
 
 **is.propertyOf(target: object, key: string, predicate?: (value: unknown) => boolean)**  
-Check if `key` exists of `target`. if you pass a `predicate` function, it will check the value's type.
+Check if the `key` exists in the `target`. If you pass a `predicate` function, it will check the value's type.
 
 ```js
 const map = { items: [1], isLogged: false, retries: 0 };
@@ -169,8 +169,8 @@ is.propertyOf(map, 'isLogged', is.string); // false
 
 ## Contributing
 
-Contributions, issues and feature requests are welcome!  
-Feel free to check [issues page](https://github.com/gilbarbara/is-lite/issues).
+Contributions, issues, and feature requests are welcome!  
+Feel free to check the [issues page](https://github.com/gilbarbara/is-lite/issues).
 
 ## Show your support
 
@@ -179,10 +179,10 @@ Give a ⭐️ if this project helped you!
 ## License
 
 Copyright © 2019 [Gil Barbara <gilbarbara@gmail.com>](https://github.com/gilbarbara).  
-This project is [MIT](https://github.com/gilbarbara/is-lite/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/gilbarbara/is-lite/blob/main/LICENSE) licensed.
 
 ## FAQ
 
-[@sindresorhus/is](https://github.com/sindresorhus/is) is amazing but I needed something even smaller (and simpler). This package cover the basics and is just 1k minified+gzipped.
+[@sindresorhus/is](https://github.com/sindresorhus/is) is fantastic, but I needed something even smaller (and simpler). This package covers the basics and is just 1k minified+gzipped.
 
 If you need to support legacy browsers, the **Number.isNaN** polyfill is required.
