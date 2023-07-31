@@ -1,6 +1,6 @@
 # is-lite
 
-[![NPM version](https://badge.fury.io/js/is-lite.svg)](https://www.npmjs.com/package/is-lite) [![CI](https://github.com/gilbarbara/is-lite/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/is-lite/actions/workflows/main.yml) [![is-lite](https://badgen.net/bundlephobia/minzip/is-lite?label=size)](https://bundlephobia.com/result?p=is-lite) [![Maintainability](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/maintainability)](https://codeclimate.com/github/gilbarbara/is-lite/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/7249fdaab7d4edf92bd0/test_coverage)](https://codeclimate.com/github/gilbarbara/is-lite/test_coverage)
+[![NPM version](https://badge.fury.io/js/is-lite.svg)](https://www.npmjs.com/package/is-lite) [![CI](https://github.com/gilbarbara/is-lite/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/is-lite/actions/workflows/main.yml) [![is-lite](https://badgen.net/bundlephobia/minzip/is-lite?label=size)](https://bundlephobia.com/result?p=is-lite) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_is-lite&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_is-lite) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_is-lite&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_is-lite)
 
 > Lightweight type check tool.
 
