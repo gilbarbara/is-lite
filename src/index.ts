@@ -39,10 +39,10 @@ const primitiveTypes = [
 ] as const;
 
 export type Class<T = unknown> = new (...arguments_: any[]) => T;
-export type ObjectTypes = typeof objectTypes[number];
+export type ObjectTypes = (typeof objectTypes)[number];
 export type PlainObject = Record<number | string | symbol, unknown>;
 export type Primitive = null | undefined | string | number | boolean | symbol | bigint;
-export type PrimitiveTypes = typeof primitiveTypes[number];
+export type PrimitiveTypes = (typeof primitiveTypes)[number];
 export type TypeName = ObjectTypes | PrimitiveTypes;
 
 export function getObjectType(value: unknown): ObjectTypes | undefined {
@@ -68,6 +68,7 @@ function isObjectType(name: unknown): name is ObjectTypes {
 }
 
 function isOfType<T extends Primitive | Function>(type: string) {
+  // eslint-disable-next-line valid-typeof
   return (value: unknown): value is T => typeof value === type;
 }
 
