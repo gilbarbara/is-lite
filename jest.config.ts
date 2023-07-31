@@ -9,17 +9,22 @@ module.exports = {
       statements: 95,
     },
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: {
-        target: 'esnext',
-      },
-    },
-  },
   moduleDirectories: ['node_modules', 'src'],
   moduleFileExtensions: ['js', 'ts'],
-  preset: 'ts-jest',
   testRegex: '/test/.*?\\.(test|spec)\\.ts$',
   testEnvironment: 'jsdom',
+  transform: {
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          target: 'esnext',
+        },
+        diagnostics: {
+          ignoreCodes: ['TS151001'],
+        },
+      },
+    ],
+  },
   verbose: false,
 };
