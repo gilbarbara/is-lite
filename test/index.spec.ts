@@ -46,35 +46,35 @@ const types = [
 
 describe('is', () => {
   it.each([
-    [[], 'Array'],
-    [asyncFn, 'AsyncFunction'],
-    [asyncGeneratorFn, 'AsyncGeneratorFunction'],
-    [BigInt(9007199254740991), 'bigint'],
-    [true, 'boolean'],
-    [new Date(), 'Date'],
-    [document.createElement('div'), 'HTMLElement'],
-    [new Error(), 'Error'],
-    [(): any => undefined, 'Function'],
-    [generatorFn(), 'Generator'],
-    [generatorFn, 'GeneratorFunction'],
-    [new Map(), 'Map'],
-    [NaN, 'number'],
-    [null, 'null'],
-    [1, 'number'],
-    [{}, 'Object'],
-    [new Promise(() => undefined), 'Promise'],
-    [new RegExp('a-z'), 'RegExp'],
-    [new Set(), 'Set'],
-    ['', 'string'],
-    [Symbol(), 'symbol'],
-    [undefined, 'undefined'],
-    [new WeakMap(), 'WeakMap'],
-    [new WeakSet(), 'WeakSet'],
-  ])('%p should return %p', (input: any, expected: string) => {
+    { input: [], expected: 'Array' },
+    { input: asyncFn, expected: 'AsyncFunction' },
+    { input: asyncGeneratorFn, expected: 'AsyncGeneratorFunction' },
+    { input: BigInt(9007199254740991), expected: 'bigint' },
+    { input: true, expected: 'boolean' },
+    { input: new Date(), expected: 'Date' },
+    { input: document.createElement('div'), expected: 'HTMLElement' },
+    { input: new Error(), expected: 'Error' },
+    { input: (): any => undefined, expected: 'Function' },
+    { input: generatorFn(), expected: 'Generator' },
+    { input: generatorFn, expected: 'GeneratorFunction' },
+    { input: new Map(), expected: 'Map' },
+    { input: NaN, expected: 'number' },
+    { input: null, expected: 'null' },
+    { input: 1, expected: 'number' },
+    { input: {}, expected: 'Object' },
+    { input: new Promise(() => undefined), expected: 'Promise' },
+    { input: new RegExp('a-z'), expected: 'RegExp' },
+    { input: new Set(), expected: 'Set' },
+    { input: '', expected: 'string' },
+    { input: Symbol(), expected: 'symbol' },
+    { input: undefined, expected: 'undefined' },
+    { input: new WeakMap(), expected: 'WeakMap' },
+    { input: new WeakSet(), expected: 'WeakSet' },
+  ])('should match $expected', ({ expected, input }) => {
     expect(is(input)).toBe(expected);
   });
 
-  it.each(tagNames.map(d => [d]))('%p should return HTMLElement', tagName => {
+  it.each(tagNames.map(d => [d]))('%s should return HTMLElement', tagName => {
     expect(is(document.createElement(tagName))).toBe('HTMLElement');
   });
 });

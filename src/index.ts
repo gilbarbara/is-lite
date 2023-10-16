@@ -107,12 +107,11 @@ function is(value: unknown): TypeName {
 
   const tagType = getObjectType(value);
 
-  /* istanbul ignore else */
   if (tagType) {
     return tagType;
   }
+  /* c8 ignore next 3 */
 
-  /* istanbul ignore next */
   return 'Object';
 }
 
