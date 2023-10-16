@@ -1,8 +1,8 @@
 {
   "extends": "@gilbarbara/tsconfig",
   "compilerOptions": {
-    "emitDeclarationOnly": true,
-    "outDir": "./dist"
+    "noEmit": true,
+    "target": "ES2020"
   },
   "include": ["src/**/*"]
 }
