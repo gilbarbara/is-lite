@@ -45,7 +45,6 @@
     "@types/node": "^20.8.6",
     "@vitest/coverage-v8": "^0.34.6",
     "del-cli": "^5.1.0",
-    "fix-tsup-cjs": "^1.2.0",
     "happy-dom": "^12.9.1",
     "husky": "^8.0.3",
     "is-ci-cli": "^2.2.0",
@@ -58,7 +57,7 @@
     "vitest": "^0.34.6"
   },
   "scripts": {
-    "build": "npm run clean && tsup && fix-tsup-cjs",
+    "build": "npm run clean && tsup",
     "watch": "tsup --watch",
     "clean": "del dist/*",
     "lint": "eslint src test",
@@ -73,6 +72,7 @@
     "prepare": "husky install"
   },
   "tsup": {
+    "cjsInterop": true,
     "dts": true,
     "entry": [
       "src/index.ts"
@@ -82,7 +82,7 @@
       "esm"
     ],
     "sourcemap": true,
-    "splitting": false
+    "splitting": true
   },
   "eslintConfig": {
     "extends": [
