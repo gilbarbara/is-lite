@@ -14,11 +14,19 @@ npm install is-lite
 
 ## Usage
 
-```js
+```ts
 import is from 'is-lite';
 
 is('value'); // string
 is.string('value'); // true
+```
+
+You can also import any checker individually since 1.0
+
+```ts
+import { isString } from 'is-lite';
+
+isString('value'); // true
 ```
 
 ## API
@@ -34,7 +42,7 @@ The rest are camelcase: `Array`, `Function`, `GeneratorFunction`, `Object`, ...
 **is.arrayOf(target: any[], predicate: (value: unknown) => boolean)**  
 Check if all items in an array are of the same type.
 
-```js
+```ts
 is.arrayOf(['a', 'b'], is.string); // true
 is.arrayOf([123, 456], is.nnumber); // true
 
@@ -44,7 +52,7 @@ is.arrayOf(['a', 1], is.string); // false
 **is.asyncFunction(value)**  
 Check if the `value` is an `async` function that can be called with `await`.
 
-```js
+```ts
 is.asyncFunction(async () => {}); // true
 is.asyncFunction(() => {}); // false
 ```
@@ -84,7 +92,7 @@ Check for an object that has its own .next() and .throw() methods and has a func
 **is.instanceOf(value, class)**  
 Check if the `value` is a direct instance of the `class`.
 
-```js
+```ts
 class APIError extends Error {}
 
 const error = new APIError('Fail');
@@ -109,7 +117,7 @@ Note: `is.number(NaN)` returns `false`
 **is.numericString(value)**  
 Check for a string that represents a number.
 
-```js
+```ts
 is.numericString('42'); // true
 is.numericString('-5'); // true
 is.numericString('Inifinity'); // true
@@ -127,7 +135,7 @@ Remember that functions and arrays are objects too.
 **is.oneOf(target: any[], value: any)**  
 Check if the `value` exists in the `target`
 
-```js
+```ts
 const colors = ['red', 'green', 'blue'];
 
 is.oneOf(colors, 'green'); // true
@@ -142,7 +150,7 @@ Check if the object is created by either `{}`, `new Object()` or `Object.create(
 **is.propertyOf(target: object, key: string, predicate?: (value: unknown) => boolean)**  
 Check if the `key` exists in the `target`. If you pass a `predicate` function, it will check the value's type.
 
-```js
+```ts
 const map = { items: [1], isLogged: false, retries: 0 };
 
 is.propertyOf(map, 'retries'); // true
