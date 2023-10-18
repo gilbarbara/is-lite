@@ -1,6 +1,7 @@
 import { ClassTest, tagNames, types } from './__fixtures';
 
-import is, {
+import is from '../src';
+import {
   isArray,
   isArrayOf,
   isAsyncFunction,
@@ -37,7 +38,7 @@ import is, {
   isUndefined,
   isWeakMap,
   isWeakSet,
-} from '../src';
+} from '../src/exports';
 
 describe('isArray', () => {
   types.forEach(d => {

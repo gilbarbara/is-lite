@@ -28,12 +28,23 @@
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./exports": {
+      "import": "./dist/exports.mjs",
+      "require": "./dist/exports.js"
     }
   },
   "files": [
     "dist",
     "src"
   ],
+  "typesVersions": {
+    "*": {
+      "exports": [
+        "dist/exports.d.ts"
+      ]
+    }
+  },
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "devDependencies": {
@@ -72,17 +83,19 @@
     "prepare": "husky install"
   },
   "tsup": {
+    "bundle": true,
     "cjsInterop": true,
     "dts": true,
     "entry": [
-      "src/index.ts"
+      "src/index.ts",
+      "src/exports.ts"
     ],
     "format": [
       "cjs",
       "esm"
     ],
     "sourcemap": true,
-    "splitting": true
+    "splitting": false
   },
   "eslintConfig": {
     "extends": [
@@ -100,6 +113,16 @@
       "name": "esm",
       "path": "./dist/index.mjs",
       "limit": "1.5 kB"
+    },
+    {
+      "name": "exports-commonjs",
+      "path": "./dist/exports.js",
+      "limit": "2 kB"
+    },
+    {
+      "name": "exports-esm",
+      "path": "./dist/exports.mjs",
+      "limit": "2 kB"
     }
   ]
 }

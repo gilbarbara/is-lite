@@ -24,7 +24,7 @@ is.string('value'); // true
 You can also import any checker individually since 1.0
 
 ```ts
-import { isString } from 'is-lite';
+import { isString } from 'is-lite/exports';
 
 isString('value'); // true
 ```
