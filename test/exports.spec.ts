@@ -181,7 +181,6 @@ describe('isInstanceOf', () => {
   it('should return the expected value', () => {
     expect(isInstanceOf(test, ClassTest)).toBe(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     expect(isInstanceOf(test, class Test2 {})).toBe(false);
   });
 
