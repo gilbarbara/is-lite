@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import is from './index';
 
 export const isArray = is.array;
