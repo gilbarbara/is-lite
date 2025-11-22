@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { getObjectType, isObjectOfType, isOfType, isPrimitiveType } from './helpers';
 import type { Class, PlainObject, Primitive, TypeName } from './types';
 
@@ -41,11 +41,12 @@ function is(value: unknown): TypeName {
 
   const tagType = getObjectType(value);
 
+  /* v8 ignore next -- @preserve */
   if (tagType) {
     return tagType;
   }
-  /* c8 ignore next 3 */
 
+  /* v8 ignore next -- @preserve */
   return 'Object';
 }
 
@@ -68,6 +69,10 @@ is.bigint = isOfType<bigint>('bigint');
 
 is.boolean = (value: unknown): value is boolean => {
   return value === true || value === false;
+};
+
+is.class = (value: unknown): value is Class => {
+  return is.function(value) && /^class\s/.test(value.toString());
 };
 
 is.date = isObjectOfType<Date>('Date');
@@ -116,6 +121,10 @@ is.instanceOf = <T>(instance: unknown, class_: Class<T>): instance is T => {
   return Object.getPrototypeOf(instance) === class_.prototype;
 };
 
+is.integer = (value: unknown): value is number => {
+  return Number.isInteger(value as number);
+};
+
 is.iterable = (value: unknown): value is IterableIterator<unknown> => {
   return (
     !is.nullOrUndefined(value) && is.function((value as IterableIterator<unknown>)[Symbol.iterator])
@@ -134,6 +143,10 @@ is.null = (value: unknown): value is null => {
 
 is.nullOrUndefined = (value: unknown): value is null | undefined => {
   return is.null(value) || is.undefined(value);
+};
+
+is.nonEmptyString = (value: unknown): value is string => {
+  return is.string(value) && value.trim().length > 0;
 };
 
 is.number = (value: unknown): value is number => {
@@ -201,6 +214,10 @@ is.string = isOfType<string>('string');
 is.symbol = isOfType<symbol>('symbol');
 
 is.undefined = isOfType<undefined>('undefined');
+
+is.url = (value: unknown): value is URL => {
+  return getObjectType(value) === 'URL';
+};
 
 is.weakMap = isObjectOfType<WeakMap<PlainObject, unknown>>('WeakMap');
 

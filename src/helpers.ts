@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import type { ObjectTypes, Primitive, PrimitiveTypes } from './types';
 
 export const objectTypes = [
@@ -18,6 +18,7 @@ export const objectTypes = [
   'Promise',
   'RegExp',
   'Set',
+  'URL',
   'WeakMap',
   'WeakSet',
 ] as const;
