@@ -44,7 +44,7 @@ Check if all items in an array are of the same type.
 
 ```ts
 is.arrayOf(['a', 'b'], is.string); // true
-is.arrayOf([123, 456], is.nnumber); // true
+is.arrayOf([123, 456], is.number); // true
 
 is.arrayOf(['a', 1], is.string); // false
 ```
@@ -62,6 +62,14 @@ is.asyncFunction(() => {}); // false
 **is.bigint(value)**
 
 **is.boolean(value)**
+
+**is.class(value)**
+Check if the `value` is a class constructor (not a regular function).
+
+```ts
+is.class(class Foo {}); // true
+is.class(function() {}); // false
+```
 
 **is.date(value)**
 
@@ -89,7 +97,7 @@ Check for an object that has its own .next() and .throw() methods and has a func
 
 **is.generatorFunction(value)**
 
-**is.instanceOf(value, class)**  
+**is.instanceOf(value, class)**
 Check if the `value` is a direct instance of the `class`.
 
 ```ts
@@ -99,6 +107,15 @@ const error = new APIError('Fail');
 
 is.instanceOf(error, APIError); // true
 is.instanceOf(error, Error); // false
+```
+
+**is.integer(value)**
+Check if the `value` is an integer.
+
+```ts
+is.integer(42); // true
+is.integer(42.5); // false
+is.integer(NaN); // false
 ```
 
 **is.iterable(value)**
@@ -111,7 +128,18 @@ is.instanceOf(error, Error); // false
 
 **is.nullOrUndefined(value)**
 
-**is.number(value)**  
+**is.nonEmptyString(value)**
+Check for a string with content after trimming whitespace.
+
+```ts
+is.nonEmptyString('hello'); // true
+is.nonEmptyString('   text   '); // true
+
+is.nonEmptyString(''); // false
+is.nonEmptyString('   '); // false
+```
+
+**is.number(value)**
 Note: `is.number(NaN)` returns `false`
 
 **is.numericString(value)**  
@@ -170,6 +198,14 @@ is.propertyOf(map, 'isLogged', is.string); // false
 **is.symbol(value)**
 
 **is.undefined(value)**
+
+**is.url(value)**
+Check if the `value` is a URL object.
+
+```ts
+is.url(new URL('https://example.com')); // true
+is.url('https://example.com'); // false
+```
 
 **is.weakMap(value)**
 

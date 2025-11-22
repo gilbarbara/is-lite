@@ -1,8 +1,8 @@
-/* eslint-disable symbol-description,prefer-regex-literals,no-promise-executor-return */
-
-import { asyncFn, asyncGeneratorFn, ClassTest, generatorFn, tagNames, types } from './__fixtures';
+/* eslint-disable symbol-description,prefer-regex-literals */
 
 import is from '../src';
+
+import { asyncFn, asyncGeneratorFn, ClassTest, generatorFn, tagNames, types } from './__fixtures';
 
 describe('is', () => {
   it.each([
@@ -90,6 +90,32 @@ describe('is.boolean', () => {
     it(`${d.key} should return ${is.boolean(d.value)}`, () => {
       expect(is.boolean(d.value)).toBe(d.key === 'boolean');
     });
+  });
+});
+
+describe('is.class', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.class(d.value)}`, () => {
+      expect(is.class(d.value)).toBe(d.key === 'class');
+    });
+  });
+
+  it('should return the expected value for edge cases', () => {
+    const arrowFn = () => {};
+
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const normalFn = function () {};
+
+    expect(is.class(ClassTest)).toBe(true);
+    expect(is.class(arrowFn)).toBe(false);
+    expect(is.class(normalFn)).toBe(false);
+  });
+
+  it('should return false for native constructors', () => {
+    expect(is.class(Array)).toBe(false);
+    expect(is.class(Object)).toBe(false);
+    expect(is.class(Date)).toBe(false);
+    expect(is.class(Map)).toBe(false);
   });
 });
 
@@ -190,11 +216,33 @@ describe('is.instanceOf', () => {
   });
 });
 
+describe('is.integer', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.integer(d.value)}`, () => {
+      expect(is.integer(d.value)).toBe(['integer', 'number'].includes(d.key));
+    });
+  });
+
+  it('should return the expected value for edge cases', () => {
+    expect(is.integer(42)).toBe(true);
+    expect(is.integer(0)).toBe(true);
+    expect(is.integer(-10)).toBe(true);
+    expect(is.integer(Number.MAX_SAFE_INTEGER)).toBe(true);
+
+    expect(is.integer(42.5)).toBe(false);
+    expect(is.integer(3.14)).toBe(false);
+    expect(is.integer(NaN)).toBe(false);
+    expect(is.integer(Infinity)).toBe(false);
+  });
+});
+
 describe('is.iterable', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.iterable(d.value)}`, () => {
       expect(is.iterable(d.value)).toBe(
-        ['array', 'generator', 'map', 'numericString', 'set', 'string'].includes(d.key),
+        ['array', 'generator', 'map', 'nonEmptyString', 'numericString', 'set', 'string'].includes(
+          d.key,
+        ),
       );
     });
   });
@@ -232,10 +280,28 @@ describe('is.nullOrUndefined', () => {
   });
 });
 
+describe('is.nonEmptyString', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.nonEmptyString(d.value)}`, () => {
+      expect(is.nonEmptyString(d.value)).toBe(['nonEmptyString', 'numericString'].includes(d.key));
+    });
+  });
+
+  it('should return the expected value for edge cases', () => {
+    expect(is.nonEmptyString('hello')).toBe(true);
+    expect(is.nonEmptyString('a')).toBe(true);
+    expect(is.nonEmptyString('   text   ')).toBe(true);
+
+    expect(is.nonEmptyString('')).toBe(false);
+    expect(is.nonEmptyString('   ')).toBe(false);
+    expect(is.nonEmptyString('\t\n')).toBe(false);
+  });
+});
+
 describe('is.number', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.number(d.value)}`, () => {
-      expect(is.number(d.value)).toBe(d.key === 'number');
+      expect(is.number(d.value)).toBe(['integer', 'number'].includes(d.key));
     });
   });
 });
@@ -253,6 +319,7 @@ describe('is.object', () => {
     'array',
     'asyncGeneratorFunction',
     'asyncFunction',
+    'class',
     'date',
     'domElement',
     'error',
@@ -264,6 +331,7 @@ describe('is.object', () => {
     'promise',
     'regexp',
     'set',
+    'url',
     'weakMap',
     'weakSet',
   ];
@@ -295,7 +363,7 @@ describe('is.oneOf', () => {
 describe('is.plainFunction', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.plainFunction(d.value)}`, () => {
-      expect(is.plainFunction(d.value)).toBe(d.key === 'function');
+      expect(is.plainFunction(d.value)).toBe(['class', 'function'].includes(d.key));
     });
   });
 });
@@ -312,8 +380,10 @@ describe('is.primitive', () => {
   const validTypes = [
     'bigint',
     'boolean',
+    'integer',
     'null',
     'nan',
+    'nonEmptyString',
     'number',
     'numericString',
     'string',
@@ -360,12 +430,16 @@ describe('is.propertyOf', () => {
   it('with predicate', () => {
     types.forEach(d => {
       // @ts-ignore
-      expect(is.propertyOf(dataset, 'some', is[d.key])).toBe(d.key === 'string');
+      expect(is.propertyOf(dataset, 'some', is[d.key])).toBe(
+        ['nonEmptyString', 'string'].includes(d.key),
+      );
     });
 
     types.forEach(d => {
       // @ts-ignore
-      expect(is.propertyOf(dataset, 'other', is[d.key])).toBe(d.key === 'number');
+      expect(is.propertyOf(dataset, 'other', is[d.key])).toBe(
+        ['integer', 'number'].includes(d.key),
+      );
     });
 
     types
@@ -403,7 +477,9 @@ describe('is.set', () => {
 describe('is.string', () => {
   types.forEach(d => {
     it(`${d.key} should return ${is.string(d.value)}`, () => {
-      expect(is.string(d.value)).toBe(['numericString', 'string'].includes(d.key));
+      expect(is.string(d.value)).toBe(
+        ['nonEmptyString', 'numericString', 'string'].includes(d.key),
+      );
     });
   });
 });
@@ -421,6 +497,22 @@ describe('is.undefined', () => {
     it(`${d.key} should return ${is.undefined(d.value)}`, () => {
       expect(is.undefined(d.value)).toBe(d.key === 'undefined');
     });
+  });
+});
+
+describe('is.url', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${is.url(d.value)}`, () => {
+      expect(is.url(d.value)).toBe(d.key === 'url');
+    });
+  });
+
+  it('should return the expected value for edge cases', () => {
+    expect(is.url(new URL('https://example.com'))).toBe(true);
+    expect(is.url(new URL('http://localhost:3000/path'))).toBe(true);
+
+    expect(is.url('https://example.com')).toBe(false);
+    expect(is.url({ href: 'https://example.com' })).toBe(false);
   });
 });
 

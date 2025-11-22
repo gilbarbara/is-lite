@@ -1,5 +1,3 @@
-import { ClassTest, tagNames, types } from './__fixtures';
-
 import is from '../src';
 import {
   isArray,
@@ -8,6 +6,7 @@ import {
   isAsyncGeneratorFunction,
   isBigInt,
   isBoolean,
+  isClass,
   isDate,
   isDefined,
   isDomElement,
@@ -17,9 +16,11 @@ import {
   isGenerator,
   isGeneratorFunction,
   isInstanceOf,
+  isInteger,
   isIterable,
   isMap,
   isNan,
+  isNonEmptyString,
   isNull,
   isNullOrUndefined,
   isNumber,
@@ -36,9 +37,12 @@ import {
   isString,
   isSymbol,
   isUndefined,
+  isUrl,
   isWeakMap,
   isWeakSet,
 } from '../src/exports';
+
+import { ClassTest, tagNames, types } from './__fixtures';
 
 describe('isArray', () => {
   types.forEach(d => {
@@ -90,6 +94,14 @@ describe('isBoolean', () => {
   types.forEach(d => {
     it(`${d.key} should return ${isBoolean(d.value)}`, () => {
       expect(isBoolean(d.value)).toBe(d.key === 'boolean');
+    });
+  });
+});
+
+describe('isClass', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${isClass(d.value)}`, () => {
+      expect(isClass(d.value)).toBe(d.key === 'class');
     });
   });
 });
@@ -191,11 +203,21 @@ describe('isInstanceOf', () => {
   });
 });
 
+describe('isInteger', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${isInteger(d.value)}`, () => {
+      expect(isInteger(d.value)).toBe(['integer', 'number'].includes(d.key));
+    });
+  });
+});
+
 describe('isIterable', () => {
   types.forEach(d => {
     it(`${d.key} should return ${isIterable(d.value)}`, () => {
       expect(isIterable(d.value)).toBe(
-        ['array', 'generator', 'map', 'numericString', 'set', 'string'].includes(d.key),
+        ['array', 'generator', 'map', 'nonEmptyString', 'numericString', 'set', 'string'].includes(
+          d.key,
+        ),
       );
     });
   });
@@ -233,10 +255,18 @@ describe('isNullOrUndefined', () => {
   });
 });
 
+describe('isNonEmptyString', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${isNonEmptyString(d.value)}`, () => {
+      expect(isNonEmptyString(d.value)).toBe(['nonEmptyString', 'numericString'].includes(d.key));
+    });
+  });
+});
+
 describe('isNumber', () => {
   types.forEach(d => {
     it(`${d.key} should return ${isNumber(d.value)}`, () => {
-      expect(isNumber(d.value)).toBe(d.key === 'number');
+      expect(isNumber(d.value)).toBe(['integer', 'number'].includes(d.key));
     });
   });
 });
@@ -254,6 +284,7 @@ describe('isObject', () => {
     'array',
     'asyncGeneratorFunction',
     'asyncFunction',
+    'class',
     'date',
     'domElement',
     'error',
@@ -265,6 +296,7 @@ describe('isObject', () => {
     'promise',
     'regexp',
     'set',
+    'url',
     'weakMap',
     'weakSet',
   ];
@@ -296,7 +328,7 @@ describe('isOneOf', () => {
 describe('isPlainFunction', () => {
   types.forEach(d => {
     it(`${d.key} should return ${isPlainFunction(d.value)}`, () => {
-      expect(isPlainFunction(d.value)).toBe(d.key === 'function');
+      expect(isPlainFunction(d.value)).toBe(['class', 'function'].includes(d.key));
     });
   });
 });
@@ -313,8 +345,10 @@ describe('isPrimitive', () => {
   const validTypes = [
     'bigint',
     'boolean',
+    'integer',
     'null',
     'nan',
+    'nonEmptyString',
     'number',
     'numericString',
     'string',
@@ -361,12 +395,14 @@ describe('isPropertyOf', () => {
   it('with predicate', () => {
     types.forEach(d => {
       // @ts-ignore
-      expect(isPropertyOf(dataset, 'some', is[d.key])).toBe(d.key === 'string');
+      expect(isPropertyOf(dataset, 'some', is[d.key])).toBe(
+        ['nonEmptyString', 'string'].includes(d.key),
+      );
     });
 
     types.forEach(d => {
       // @ts-ignore
-      expect(isPropertyOf(dataset, 'other', is[d.key])).toBe(d.key === 'number');
+      expect(isPropertyOf(dataset, 'other', is[d.key])).toBe(['integer', 'number'].includes(d.key));
     });
 
     types
@@ -404,7 +440,7 @@ describe('isSet', () => {
 describe('isString', () => {
   types.forEach(d => {
     it(`${d.key} should return ${isString(d.value)}`, () => {
-      expect(isString(d.value)).toBe(['numericString', 'string'].includes(d.key));
+      expect(isString(d.value)).toBe(['nonEmptyString', 'numericString', 'string'].includes(d.key));
     });
   });
 });
@@ -421,6 +457,14 @@ describe('isUndefined', () => {
   types.forEach(d => {
     it(`${d.key} should return ${isUndefined(d.value)}`, () => {
       expect(isUndefined(d.value)).toBe(d.key === 'undefined');
+    });
+  });
+});
+
+describe('isUrl', () => {
+  types.forEach(d => {
+    it(`${d.key} should return ${isUrl(d.value)}`, () => {
+      expect(isUrl(d.value)).toBe(d.key === 'url');
     });
   });
 });
