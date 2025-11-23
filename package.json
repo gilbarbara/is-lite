@@ -29,9 +29,9 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./exports": {
-      "import": "./dist/exports.mjs",
-      "require": "./dist/exports.js"
+    "./standalone": {
+      "import": "./dist/standalone.mjs",
+      "require": "./dist/standalone.js"
     }
   },
   "files": [
@@ -40,8 +40,8 @@
   ],
   "typesVersions": {
     "*": {
-      "exports": [
-        "dist/exports.d.ts"
+      "standalone": [
+        "dist/standalone.d.ts"
       ]
     }
   },
@@ -60,7 +60,6 @@
     "eslint": "^9.39.1",
     "happy-dom": "^20.0.10",
     "husky": "^9.1.7",
-    "is-ci-cli": "^2.2.0",
     "prettier": "^3.6.2",
     "repo-tools": "^0.3.1",
     "size-limit": "^11.2.0",
@@ -74,11 +73,11 @@
     "watch": "tsup --watch",
     "clean": "del dist/*",
     "lint": "eslint --fix src test",
-    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test": "TZ=UTC vitest run",
+    "test:coverage": "TZ=UTC vitest run --typecheck --coverage",
+    "test:watch": "TZ=UTC vitest watch",
     "typecheck": "tsc",
     "typevalidation": "attw -Pq",
-    "test:coverage": "TZ=UTC vitest run --coverage",
-    "test:watch": "TZ=UTC vitest watch",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run typevalidation && npm run size",
     "size": "size-limit",
@@ -90,7 +89,7 @@
     "dts": true,
     "entry": [
       "src/index.ts",
-      "src/exports.ts"
+      "src/standalone.ts"
     ],
     "format": [
       "cjs",
@@ -112,14 +111,14 @@
       "limit": "1.5 kB"
     },
     {
-      "name": "exports-commonjs",
-      "path": "./dist/exports.js",
-      "limit": "2 kB"
+      "name": "standalone-commonjs",
+      "path": "./dist/standalone.js",
+      "limit": "1.5 kB"
     },
     {
-      "name": "exports-esm",
-      "path": "./dist/exports.mjs",
-      "limit": "2 kB"
+      "name": "standalone-esm",
+      "path": "./dist/standalone.mjs",
+      "limit": "1.5 kB"
     }
   ]
 }
