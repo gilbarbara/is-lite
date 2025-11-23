@@ -40,7 +40,7 @@ import {
   isUrl,
   isWeakMap,
   isWeakSet,
-} from '../src/exports';
+} from '../src/standalone';
 
 import { ClassTest, tagNames, types } from './__fixtures';
 
@@ -103,6 +103,24 @@ describe('isClass', () => {
     it(`${d.key} should return ${isClass(d.value)}`, () => {
       expect(isClass(d.value)).toBe(d.key === 'class');
     });
+  });
+
+  it('should return the expected value for edge cases', () => {
+    const arrowFn = () => {};
+
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const normalFn = function () {};
+
+    expect(isClass(ClassTest)).toBe(true);
+    expect(isClass(arrowFn)).toBe(false);
+    expect(isClass(normalFn)).toBe(false);
+  });
+
+  it('should return false for native constructors', () => {
+    expect(isClass(Array)).toBe(false);
+    expect(isClass(Object)).toBe(false);
+    expect(isClass(Date)).toBe(false);
+    expect(isClass(Map)).toBe(false);
   });
 });
 
@@ -209,6 +227,18 @@ describe('isInteger', () => {
       expect(isInteger(d.value)).toBe(['integer', 'number'].includes(d.key));
     });
   });
+
+  it('should return the expected value for edge cases', () => {
+    expect(isInteger(42)).toBe(true);
+    expect(isInteger(0)).toBe(true);
+    expect(isInteger(-10)).toBe(true);
+    expect(isInteger(Number.MAX_SAFE_INTEGER)).toBe(true);
+
+    expect(isInteger(42.5)).toBe(false);
+    expect(isInteger(3.14)).toBe(false);
+    expect(isInteger(NaN)).toBe(false);
+    expect(isInteger(Infinity)).toBe(false);
+  });
 });
 
 describe('isIterable', () => {
@@ -260,6 +290,16 @@ describe('isNonEmptyString', () => {
     it(`${d.key} should return ${isNonEmptyString(d.value)}`, () => {
       expect(isNonEmptyString(d.value)).toBe(['nonEmptyString', 'numericString'].includes(d.key));
     });
+  });
+
+  it('should return the expected value for edge cases', () => {
+    expect(isNonEmptyString('hello')).toBe(true);
+    expect(isNonEmptyString('a')).toBe(true);
+    expect(isNonEmptyString('   text   ')).toBe(true);
+
+    expect(isNonEmptyString('')).toBe(false);
+    expect(isNonEmptyString('   ')).toBe(false);
+    expect(isNonEmptyString('\t\n')).toBe(false);
   });
 });
 
@@ -466,6 +506,14 @@ describe('isUrl', () => {
     it(`${d.key} should return ${isUrl(d.value)}`, () => {
       expect(isUrl(d.value)).toBe(d.key === 'url');
     });
+  });
+
+  it('should return the expected value for edge cases', () => {
+    expect(isUrl(new URL('https://example.com'))).toBe(true);
+    expect(isUrl(new URL('http://localhost:3000/path'))).toBe(true);
+
+    expect(isUrl('https://example.com')).toBe(false);
+    expect(isUrl({ href: 'https://example.com' })).toBe(false);
   });
 });
 

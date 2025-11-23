@@ -16,5 +16,8 @@ export default defineConfig({
     },
     environment: 'happy-dom',
     globals: true,
+    typecheck: {
+      include: ['**/*.test-d.ts'],
+    },
   },
 });

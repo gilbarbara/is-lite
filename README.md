@@ -21,10 +21,10 @@ is('value'); // string
 is.string('value'); // true
 ```
 
-You can also import any checker individually since 1.0
+You can also import any checker individually (tree-shakeable)
 
 ```ts
-import { isString } from 'is-lite/exports';
+import { isString } from 'is-lite/standalone';
 
 isString('value'); // true
 ```
@@ -148,7 +148,7 @@ Check for a string that represents a number.
 ```ts
 is.numericString('42'); // true
 is.numericString('-5'); // true
-is.numericString('Inifinity'); // true
+is.numericString('Infinity'); // true
 is.numericString('NaN'); // true
 ```
 
